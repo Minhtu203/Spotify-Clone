@@ -7,7 +7,7 @@ import {
   updateAlbum,
   deleteAlbum,
 } from "../controllers/albumController.js";
-import { protect } from "../middleware/authMiddleware.js";
+// import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
@@ -18,12 +18,12 @@ router.get("/", getAllAlbums);
 router.get("/:id", getAlbumById);
 
 // Tạo album mới (yêu cầu đăng nhập)
-router.post("/", protect, createAlbum);
+router.post("/", createAlbum);
 
 // Cập nhật album (yêu cầu đăng nhập)
-router.put("/:id", protect, updateAlbum);
+router.put("/:id", updateAlbum);
 
 // Xoá album (yêu cầu đăng nhập)
-router.delete("/:id", protect, deleteAlbum);
+router.delete("/:id", deleteAlbum);
 
 export default router;

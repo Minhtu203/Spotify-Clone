@@ -1,9 +1,17 @@
 import express from "express";
-import { getUsers, createUser } from "../controllers/userController.js";
+import {
+  getUsers,
+  createUser,
+  deleteUser,
+  updateUserInfo,
+} from "../controllers/userController.js";
+import { middlewareController } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", getUsers);
+router.get("/", middlewareController.verifyToken, getUsers);
 router.post("/", createUser);
+router.delete("/:id", middlewareController.verifyAdminToken, deleteUser);
+router.post("/:id", middlewareController.verifyToken, updateUserInfo);
 
 export default router;

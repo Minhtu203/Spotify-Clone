@@ -2,10 +2,18 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    clerkId: { type: String, required: true, unique: true },
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
+    name: { type: String },
+    email: { type: String, require: true },
+    userName: { type: String, required: true, unique: true, trim: true },
+    password: { type: String, required: true, minlength: 6 },
+    liked: {
+      artists: [{ type: mongoose.Schema.Types.ObjectId, ref: "Artist" }],
+      albums: [{ type: mongoose.Schema.Types.ObjectId, ref: "Album" }],
+    },
+    admin: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

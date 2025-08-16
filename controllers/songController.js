@@ -1,6 +1,6 @@
 import Song from "../models/songModel.js";
 
-export const getSongs = async (req, res) => {
+export const getAllSongs = async (req, res) => {
   try {
     const songs = await Song.find().populate("artist album");
     res.json(songs);

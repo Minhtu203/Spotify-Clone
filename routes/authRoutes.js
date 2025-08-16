@@ -1,9 +1,23 @@
 import express from "express";
-import { authCallback } from "../controllers/authController.js";
+import { authController } from "../controllers/authController.js";
+import { middlewareController } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Route callback sau khi Google login qua Clerk
-router.post("/callback", authCallback);
+//register
+router.post("/register", authController.registerUser);
+
+//login
+router.post("/login", authController.loginUser);
+
+//refresh
+router.post("/refresh", authController.requestRefreshToken);
+
+//logout
+router.post(
+  "/logout",
+  middlewareController.verifyToken,
+  authController.logoutUser
+);
 
 export default router;

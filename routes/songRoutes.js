@@ -1,14 +1,15 @@
 import express from "express";
 import {
-  getSongs,
+  getAllSongs,
   createSong,
   getSong,
   incrementPlay,
 } from "../controllers/songController.js";
-import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
-router.get("/", getSongs);
-router.post("/", protect, createSong);
+
+router.get("/", getAllSongs);
+
+router.post("/", createSong);
 
 export default router;
