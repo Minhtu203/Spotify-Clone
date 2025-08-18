@@ -1,0 +1,31 @@
+.wrapper {
+    display: flex;
+    height: 100%;
+    position: absolute;
+    right: 1rem;
+    top: 0;
+    font-size: 1.6rem;
+    gap: 3rem;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.install-btn{
+    color: var(--gray);
+}
+
+.signup-btn{
+    color: var(--gray);
+}
+
+.login-btn{
+    width: 10.83rem;
+    height: 80%;
+    border-radius: 3rem;
+    color: var(--black);
+    font-weight: 700;
+    font-size: 1.6rem;
+    cursor: pointer;
+    border: none;
+}

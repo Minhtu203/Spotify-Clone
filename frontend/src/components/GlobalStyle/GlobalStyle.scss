@@ -1,0 +1,39 @@
+@import 'normalize.css';
+
+:root {
+    --primary: #1ed760;
+    --black: #000;
+    --white: #fff;
+    --gray: #b3b3b3;
+    --dark: #1f1f1f;
+    --hover: #2a2a2a;
+    --layout-dark: #121212;
+    --artist: #7c7c7c;
+    // --blue: rgba(67, 5, 243, 1);
+    --blue: blue;
+    --header-height: 7rem;
+    --controlbar-height: 9rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html  {
+    font-size: 62.5%;
+    background-color: var(--black);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    // background-color: black;
+}
+
+a[href] {
+    text-decoration: none;
+}

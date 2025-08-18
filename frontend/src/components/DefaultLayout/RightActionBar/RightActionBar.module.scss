@@ -1,0 +1,7 @@
+//right action bar
+.wrapper {
+    width: 40vh;
+    background-color: var(--layout-dark);
+    margin-top: var(--header-height);
+    height: calc(100vh - var(--header-height) - var(--controlbar-height));
+}
