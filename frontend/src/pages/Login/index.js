@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import style from './Login.module.scss';
 import 'primeicons/primeicons.css';
-import { ErrorIcon, SpotifyIcon } from '../../assets/Icon';
+import { SpotifyIcon } from '../../assets/Icon';
 import { useState } from 'react';
 import { loginUser } from '../../redux/apiRequest';
 import { useDispatch } from 'react-redux';

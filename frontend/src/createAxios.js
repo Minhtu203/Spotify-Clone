@@ -4,7 +4,7 @@ import axiosInstance from './lib/axios';
 
 const refreshToken = async () => {
     try {
-        const res = await axiosInstance.post('/auth/refresh', {}, { withCredentials: true });
+        const res = await axiosInstance.post('http://localhost:5000/api/auth/refresh', {}, { withCredentials: true });
         return res.data;
     } catch (err) {
         console.log(err);

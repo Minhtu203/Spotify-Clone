@@ -36,17 +36,12 @@ export const getAllArtists = async (req, res) => {
   }
 };
 
-// @desc    Lấy artist theo ID
-// @route   GET /api/artists/:id
-// @access  Public
 export const getArtistById = async (req, res) => {
   try {
     const artist = await Artist.findById(req.params.id);
-
     if (!artist) {
       return res.status(404).json({ message: "Không tìm thấy artist" });
     }
-
     res.json(artist);
   } catch (error) {
     res.status(500).json({ message: error.message });

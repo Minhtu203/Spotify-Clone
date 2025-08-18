@@ -12,8 +12,6 @@ import { registerStart } from '../redux/authSlice';
 import { getSongFailed, getSongStart, getSongSuccess } from './songSlice';
 import { getArtistFailed, getArtistStart, getArtistSuccess } from './artistSlice';
 import {
-    allUserFailed,
-    allUserStart,
     deleteUserFailed,
     deleteUserStart,
     deleteUserSuccess,
@@ -25,7 +23,7 @@ import {
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
     try {
-        const res = await axios.post('http://localhost:5000/api/auth/login', user);
+        const res = await axios.post('http://localhost:5000/api/auth/login', user, { withCredentials: true });
         dispatch(loginSuccess(res.data));
         navigate('/');
     } catch (error) {
@@ -37,7 +35,7 @@ export const loginUser = async (user, dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart());
     try {
-        const res = await axios.post('http://localhost:5000/api/auth/register', user);
+        await axios.post('http://localhost:5000/api/auth/register', user);
         dispatch(registerSuccess());
         navigate('/login');
     } catch (error) {
@@ -67,13 +65,18 @@ export const getAllArtist = async (dispatch, navigate) => {
     }
 };
 
-export const LogOut = async (userId, dispatch, navigate, accessToken, axiosJWT) => {
+export const LogOut = async (dispatch, navigate) => {
     dispatch(logOutStart());
     try {
-        const res = await axiosJWT.post('http://localhost:5000/api/auth/logout', userId, {
-            headers: { token: `Bearer ${accessToken}` },
-        });
+        await axios.post(
+            'http://localhost:5000/api/auth/logout',
+            {},
+            {
+                withCredentials: true,
+            },
+        );
         dispatch(logOutSuccess());
+        navigate('/login');
     } catch (error) {
         dispatch(logOutFailed());
     }

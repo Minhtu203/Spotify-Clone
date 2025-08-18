@@ -1,15 +1,13 @@
 import Header from '../../components/DefaultLayout/Header';
 import Sidebar from '../../components/DefaultLayout/Sidebar';
 import ControlBar from '../../components/ControlBar';
-import MainView from '../../components/DefaultLayout/MainView';
 import classNames from 'classnames/bind';
 import style from './Home.module.scss';
 import RightActionBar from '../../components/DefaultLayout/RightActionBar';
-import ArtistDetail from '../../components/ArtistDetail';
 
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { deleteUser, getAllUsers } from '../../redux/apiRequest';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { getAllUsers } from '../../redux/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess } from '../../redux/authSlice';
 import { CreateAxios } from '../../createAxios';
@@ -25,25 +23,21 @@ export default function Home() {
 
     useEffect(() => {
         if (!user) {
-            alert('Bạn cần đăng nhập trước');
+            alert('Move to login page!');
             navigate('/login');
         }
         if (user?.accessToken) {
             getAllUsers(user?.accessToken, dispatch, axiosJWT);
         }
-    }, []);
+    }, [user, dispatch, axiosJWT, navigate]);
 
     return (
         <div className={cx('wrapper')}>
             <Header />
             <div className={cx('content')}>
                 <Sidebar />
-                {/* <Routes>
-                        <Route path="/" element={<MainView />} />
-                        <Route path="/artist/:id" element={<ArtistDetail />} />
-            </Routes> */}
-                <MainView />
-
+                <Outlet />
+                {/* <MainView /> */}
                 <RightActionBar />
             </div>
             <ControlBar />

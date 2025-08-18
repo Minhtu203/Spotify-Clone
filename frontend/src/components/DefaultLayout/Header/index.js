@@ -1,14 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
 import { BrowseIcon, HomeIcon, SearchIcon, SpotifyIcon } from '../../../assets/Icon';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteUser, getAllSongs, LogOut } from '../../../redux/apiRequest';
-import { CreateAxios } from '../../../createAxios';
-import { logOutSuccess } from '../../../redux/authSlice';
+import { getAllSongs, LogOut } from '../../../redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
@@ -18,39 +15,29 @@ export default function Header() {
     const [inputValue, setInputValue] = useState('');
     const [isFocus, setIsFocus] = useState(false);
     const [searchIcon, setSearchIcon] = useState(false);
-
-    //api all users
-    const user = useSelector((state) => state.users.users?.allUser);
-    const userId = user?._id;
-    const accessToken = user?.accessToken;
-
-    let axiosJWT = CreateAxios(user, dispatch, logOutSuccess);
+    const navigate = useNavigate();
 
     const handleFocus = () => {
         inputRef.current?.focus();
     };
-
     const Songs = useSelector((state) => state.songs.songs?.allSongs);
     useEffect(() => {
         getAllSongs(dispatch);
     }, [dispatch]);
 
     const handleLogOut = () => {
-        LogOut(userId, dispatch, accessToken, axiosJWT);
+        LogOut(dispatch, navigate);
     };
-
-    const navigate = useNavigate();
-
     return (
         <div className={cx('header-wrapper')}>
-            <span className={cx('logo')}>
+            <a href="/" alt="spotify" className={cx('logo')}>
                 <SpotifyIcon />
-            </span>
+            </a>
 
             <div className={cx('search-container')}>
-                <button className={cx('home-btn')} style={{ position: 'relative' }}>
+                <a href="/" alt="home" className={cx('home-btn')} style={{ position: 'relative' }}>
                     <HomeIcon />
-                </button>
+                </a>
                 <div className={cx('search-container-sub')}>
                     {/* thanh tim kiem */}
                     <div className={cx('search-input-container')}>

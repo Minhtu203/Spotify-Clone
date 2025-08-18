@@ -2,9 +2,10 @@ import classNames from 'classnames/bind';
 import style from './MainView.module.scss';
 
 import { useEffect, useState } from 'react';
-import { deleteUser, getAllArtist, getAllUsers } from '../../../redux/apiRequest';
+import { getAllArtist } from '../../../redux/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { PlayMusicIcon } from '../../../assets/Icon';
 
 const cx = classNames.bind(style);
 
@@ -12,39 +13,18 @@ function MainView() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const artists = useSelector((state) => state.artists.artist?.allArtist);
-    const [navArtistProfile, setNavArtistProfile] = useState(null);
+    const [playHover, setPlayHover] = useState(null);
 
     useEffect(() => {
         getAllArtist(dispatch);
     }, [dispatch]);
 
     const handleClick = (artistId) => {
-        setNavArtistProfile(artistId);
-        navigate(`/artist/${artistId}`);
+        navigate(`/artists/${artistId}`);
     };
-
-    // TEST DELETE
-    // const user = useSelector((state) => state.auth.login?.currentUser);
-    // const userData = useSelector((state) => state.users.users?.allUser);
-
-    // useEffect(() => {
-    //     getAllUsers(user?.accessToken, dispatch, axiosJWT);
-    // }, [user?.accessToken, dispatch, axiosJWT]);
-
-    // const handleDelete = (id) => {
-    //     if (user?.admin) {
-    //         // admin thì xóa bất kỳ user nào
-    //         deleteUser(id, dispatch, navigate, user?.accessToken, axiosJWT);
-    //     } else {
-    //         // user thường thì chỉ được xóa chính mình
-    //         if (id === user?._id) {
-    //             deleteUser(id, dispatch, navigate, user?.accessToken, axiosJWT);
-    //         } else {
-    //             alert('Bạn không có quyền xóa user này!');
-    //         }
-    //     }
-    // };
-
+    const handlePlayMusic = () => {
+        console.log('clicked play');
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header-btn')}>
@@ -52,12 +32,31 @@ function MainView() {
                 <button>Music</button>
                 <button>Podcasts</button>
             </div>
-
             <div className={cx('all-song')}>
                 {artists.map((artist) => (
-                    <div key={artist._id} className={cx('song-item')} onClick={() => handleClick(artist._id)}>
+                    <div
+                        key={artist._id}
+                        className={cx('song-item')}
+                        onClick={() => handleClick(artist._id)}
+                        onMouseEnter={() => setPlayHover(artist._id)}
+                        onMouseLeave={() => setPlayHover(null)}
+                    >
                         <img className={cx('song-avatar')} src={artist.imageUrl} alt={artist.name}></img>
                         <span>{artist.name}</span>
+
+                        {playHover === artist?._id && (
+                            <button
+                                className={cx('play-icon')}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handlePlayMusic();
+                                }}
+                                // onMouseEnter={() => setPlayHover(artist._id)}
+                                // onMouseLeave={() => setPlayHover(null)}
+                            >
+                                <PlayMusicIcon className={cx('icon')} />
+                            </button>
+                        )}
                     </div>
                 ))}
             </div>

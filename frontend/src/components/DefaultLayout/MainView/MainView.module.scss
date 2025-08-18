@@ -44,6 +44,7 @@
 }
 
 .song-item {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 0.8rem;
@@ -63,4 +64,19 @@
     height: 4.8rem;
     border-bottom-left-radius: 0.3rem;
     border-top-left-radius: 0.3rem;
-} 
+}
+
+.play-icon {
+    width: 3.2rem;
+    height: 3.2rem;
+    background-color: var(--primary);
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    box-shadow:  5px 5px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    position: absolute;
+    right: 0.7rem;
+    border: none;
+    display: flex;
+}
