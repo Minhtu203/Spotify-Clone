@@ -1,0 +1,9 @@
+[33mcommit 92a31714df2f88a157c3a741df8f957cf586d5c2[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Minhtu203 <minhtu09042003@gmail.com>
+Date:   Mon Aug 18 09:25:15 2025 +0700
+
+    aaa
+
+[1mdiff --git a/.gitmodules b/.gitmodules[m
+[1mdeleted file mode 100644[m
+[1mindex e69de29..0000000[m
