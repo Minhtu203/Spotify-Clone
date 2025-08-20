@@ -26,6 +26,7 @@
     "react-scripts": "5.0.1",
     "react-split-pane-next": "^1.0.6",
     "redux-persist": "^6.0.0",
+    "spotify-clone": "file:..",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

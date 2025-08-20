@@ -3,9 +3,9 @@ import { Fragment } from 'react/jsx-runtime';
 
 import { homeRoutes, publicRoutes } from './routes';
 import DefaultLayout from './components/DefaultLayout';
-import ArtistDetail from './components/ArtistDetail';
-import MainView from './components/DefaultLayout/MainView';
 import Home from './pages/Home';
+import MainView from './components/DefaultLayout/MainView';
+import ArtistDetail from './components/ArtistDetail';
 
 function App() {
     return (

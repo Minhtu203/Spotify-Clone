@@ -10,7 +10,7 @@ import {
 } from './authSlice';
 import { registerStart } from '../redux/authSlice';
 import { getSongFailed, getSongStart, getSongSuccess } from './songSlice';
-import { getArtistFailed, getArtistStart, getArtistSuccess } from './artistSlice';
+import { getArtistDetailSuccess, getArtistFailed, getArtistStart, getArtistSuccess } from './artistSlice';
 import {
     deleteUserFailed,
     deleteUserStart,
@@ -59,7 +59,19 @@ export const getAllArtist = async (dispatch, navigate) => {
     try {
         const res = await axios.get('http://localhost:5000/api/artists/');
         dispatch(getArtistSuccess(res.data));
+
         navigate('/');
+    } catch (error) {
+        dispatch(getArtistFailed());
+    }
+};
+
+export const getArtistDetail = async (dispatch, navigate, id) => {
+    dispatch(getArtistStart());
+    try {
+        const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
+        dispatch(getArtistDetailSuccess(res.data));
+        navigate(`/artists/${id}`);
     } catch (error) {
         dispatch(getArtistFailed());
     }
@@ -86,7 +98,7 @@ export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
     dispatch(getUserStart());
     try {
         const res = await axiosJWT.get('http://localhost:5000/api/user/', {
-            headers: { token: `Bearer: ${accessToken}` },
+            headers: { token: `Bearer ${accessToken}` },
         });
         dispatch(getUserSuccess(res.data));
     } catch (err) {
@@ -94,7 +106,7 @@ export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
     }
 };
 
-export const deleteUser = async (userId, dispatch, navigate, accessToken, axiosJWT) => {
+export const deleteUser = async (userId, dispatch, accessToken, axiosJWT) => {
     dispatch(deleteUserStart());
     try {
         const res = await axiosJWT.delete(`http://localhost:5000/api/user/${userId}`, {

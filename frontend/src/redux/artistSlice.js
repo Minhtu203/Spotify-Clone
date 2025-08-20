@@ -7,6 +7,7 @@ const artistSlice = createSlice({
             allArtist: [],
             isFetching: false,
             error: false,
+            artistDetail: null,
         },
     },
     reducers: {
@@ -20,8 +21,12 @@ const artistSlice = createSlice({
         getArtistFailed: (state) => {
             state.artist.error = true;
         },
+        getArtistDetailSuccess: (state, action) => {
+            state.artist.isFetching = false;
+            state.artist.artistDetail = action.payload;
+        },
     },
 });
 
-export const { getArtistStart, getArtistSuccess, getArtistFailed } = artistSlice.actions;
+export const { getArtistStart, getArtistSuccess, getArtistFailed, getArtistDetailSuccess } = artistSlice.actions;
 export default artistSlice.reducer;

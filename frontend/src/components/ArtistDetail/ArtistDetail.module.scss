@@ -1,0 +1,20 @@
+.wrapper {
+    flex: 1;
+    background-color: var(--layout-dark);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--header-height);
+    height: calc(100vh - var(--header-height) - var(--controlbar-height));
+    background: linear-gradient(to bottom, var(--hover) 20%, var(--layout-dark) 80%);
+    overflow: auto;
+}
+
+.content {
+
+}
+
+.artist-coverpic {
+    width: 100%;
+    height: 22rem;
+}

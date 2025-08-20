@@ -1,0 +1,14 @@
+# Node modules cho cả frontend và backend
+node_modules/
+
+# Thư mục build
+build/
+dist/
+
+# File môi trường
+.env
+
+# Editor & OS
+.vscode/
+.idea/
+.DS_Store

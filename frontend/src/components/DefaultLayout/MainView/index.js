@@ -12,15 +12,15 @@ const cx = classNames.bind(style);
 function MainView() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const artists = useSelector((state) => state.artists.artist?.allArtist);
     const [playHover, setPlayHover] = useState(null);
+    const artists = useSelector((state) => state.artists.artist?.allArtist);
 
     useEffect(() => {
-        getAllArtist(dispatch);
-    }, [dispatch]);
+        getAllArtist(dispatch, navigate);
+    }, [dispatch, navigate]);
 
-    const handleClick = (artistId) => {
-        navigate(`/artists/${artistId}`);
+    const handleArtist = (artistId) => {
+        navigate(`/artists/${artistId}`, { replace: true });
     };
     const handlePlayMusic = () => {
         console.log('clicked play');
@@ -37,7 +37,7 @@ function MainView() {
                     <div
                         key={artist._id}
                         className={cx('song-item')}
-                        onClick={() => handleClick(artist._id)}
+                        onClick={() => handleArtist(artist._id)}
                         onMouseEnter={() => setPlayHover(artist._id)}
                         onMouseLeave={() => setPlayHover(null)}
                     >
@@ -60,44 +60,6 @@ function MainView() {
                     </div>
                 ))}
             </div>
-
-            {/* TEST DELETE */}
-            {/* <span
-                style={{ width: '3rem', height: '3rem', fontSize: '2rem', marginTop: '3rem', color: 'var(--primary)' }}
-            >
-                Username:
-            </span>
-            {userData.map((u, index) => (
-                <div
-                    key={index + 1}
-                    style={{
-                        display: 'flex',
-                        width: '100%',
-                        height: '3rem',
-                        gap: '2rem',
-                    }}
-                >
-                    <span
-                        key={u._id}
-                        style={{
-                            // width: '50%',
-                            height: '3rem',
-                            fontSize: '1.8rem',
-                            color: 'white',
-                        }}
-                    >
-                        username: {u.userName}
-                    </span>
-                    {(user?.admin || u._id === user?._id) && (
-                        <button
-                            onClick={() => handleDelete(u._id)}
-                            style={{ width: '30%', height: '3rem', color: 'black' }}
-                        >
-                            DELETE
-                        </button>
-                    )}
-                </div>
-            ))} */}
         </div>
     );
 }

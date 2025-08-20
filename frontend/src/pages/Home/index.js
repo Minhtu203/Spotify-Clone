@@ -24,12 +24,11 @@ export default function Home() {
     useEffect(() => {
         if (!user) {
             alert('Move to login page!');
-            navigate('/login');
-        }
-        if (user?.accessToken) {
+            navigate('/login', { replace: true });
+        } else if (user?.accessToken) {
             getAllUsers(user?.accessToken, dispatch, axiosJWT);
         }
-    }, [user, dispatch, axiosJWT, navigate]);
+    }, [user, navigate, dispatch, axiosJWT]);
 
     return (
         <div className={cx('wrapper')}>
@@ -37,7 +36,6 @@ export default function Home() {
             <div className={cx('content')}>
                 <Sidebar />
                 <Outlet />
-                {/* <MainView /> */}
                 <RightActionBar />
             </div>
             <ControlBar />

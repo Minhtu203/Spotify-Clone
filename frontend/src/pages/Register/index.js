@@ -23,6 +23,7 @@ function Register() {
             userName: userName,
         };
         registerUser(newUser, dispatch, navigate);
+        alert('Register successfull');
     };
 
     return (
