@@ -19,7 +19,7 @@ router.get("/", getAllArtists);
 router.get("/:id", getArtistById);
 
 // Cập nhật thông tin artist
-router.put("/:id", updateArtist);
+router.put("/update/:id", updateArtist);
 
 // Xóa artist
 router.delete("/:id", deleteArtist);

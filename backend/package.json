@@ -26,7 +26,8 @@
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
     "redis": "^5.8.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "spotify-clone": "file:.."
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

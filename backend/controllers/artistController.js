@@ -48,22 +48,18 @@ export const getArtistById = async (req, res) => {
   }
 };
 
-// @desc    Cập nhật artist
-// @route   PUT /api/artists/:id
-// @access  Private
 export const updateArtist = async (req, res) => {
   try {
-    const artist = await Artist.findById(req.params.id);
+    const updatedArtist = await Artist.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body }, // cập nhật tất cả field gửi lên
+      { new: true, runValidators: true } // trả về document mới + validate schema
+    );
 
-    if (!artist) {
+    if (!updatedArtist) {
       return res.status(404).json({ message: "Không tìm thấy artist" });
     }
 
-    artist.name = req.body.name || artist.name;
-    artist.imageUrl = req.body.imageUrl || artist.imageUrl;
-    artist.description = req.body.description || artist.description;
-
-    const updatedArtist = await artist.save();
     res.json(updatedArtist);
   } catch (error) {
     res.status(500).json({ message: error.message });
