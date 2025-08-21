@@ -1,5 +1,6 @@
 import React from 'react';
+import ControlBar from '../ControlBar';
 
 export default function DefaultLayout() {
-    return <div>DefaultLayout</div>;
+    return <ControlBar />;
 }

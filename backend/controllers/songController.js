@@ -39,3 +39,38 @@ export const incrementPlay = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+export const getAllSongById = async (req, res) => {
+  try {
+    const artist_id = req.params.id;
+    if (!artist_id) {
+      return res.status(400).json({ message: "artist_id is not valid" });
+    }
+
+    const songs = await Song.find({ artist: artist_id }).populate("artist");
+    res.status(200).json(songs);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateSong = async (req, res) => {
+  try {
+    const songId = req.params.id; // lấy id từ URL
+    const updatedData = req.body; // dữ liệu muốn sửa
+
+    const updatedSong = await Song.findByIdAndUpdate(
+      songId,
+      updatedData,
+      { new: true } // trả về document mới sau khi update
+    );
+
+    if (!updatedSong) {
+      return res.status(404).json({ message: "Song not found" });
+    }
+
+    res.status(200).json(updatedSong);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

@@ -141,7 +141,7 @@ export const PinIcon = ({ className, width = '1.2rem', height = '1.2rem' }) => (
     </svg>
 );
 
-export const PlayMusicIcon = ({ className, width = '1.4rem', height = '1.4rem' }) => (
+export const PlayMusicIcon = ({ className, width = '1.4rem', height = '1.4rem', style }) => (
     <svg
         className={className}
         width={width}
@@ -150,11 +150,50 @@ export const PlayMusicIcon = ({ className, width = '1.4rem', height = '1.4rem' }
         role="img"
         aria-hidden="true"
         viewBox="0 0 16 16"
-        style={{ color: 'var(--black)' }}
+        style={style}
     >
         <path
             fill="currentColor"
             d="M3 1.713a.7.7 0 0 1 1.05-.607l10.89 6.288a.7.7 0 0 1 0 1.212L4.05 14.894A.7.7 0 0 1 3 14.288z"
+        ></path>
+    </svg>
+);
+
+export const VerifiedIcon = ({ className, width = '2.1rem', height = '2.1rem' }) => (
+    <svg
+        className={className}
+        height={height}
+        width={width}
+        data-encore-id="verifiedBadge"
+        role="img"
+        aria-hidden="false"
+        viewBox="0 0 24 24"
+    >
+        <path
+            fill="currentColor"
+            d="M10.814.5a1.66 1.66 0 0 1 2.372 0l2.512 2.572 3.595-.043a1.66 1.66 0 0 1 1.678 1.678l-.043 3.595 2.572 2.512c.667.65.667 1.722 0 2.372l-2.572 2.512.043 3.595a1.66 1.66 0 0 1-1.678 1.678l-3.595-.043-2.512 2.572a1.66 1.66 0 0 1-2.372 0l-2.512-2.572-3.595.043a1.66 1.66 0 0 1-1.678-1.678l.043-3.595L.5 13.186a1.66 1.66 0 0 1 0-2.372l2.572-2.512-.043-3.595a1.66 1.66 0 0 1 1.678-1.678l3.595.043zm6.584 9.12a1 1 0 0 0-1.414-1.413l-6.011 6.01-1.894-1.893a1 1 0 0 0-1.414 1.414l3.308 3.308z"
+        ></path>
+    </svg>
+);
+
+export const AddIcon = ({ style, width, height, className }) => (
+    <svg
+        className={className}
+        style={style}
+        width={width}
+        height={height}
+        data-encore-id="icon"
+        role="img"
+        aria-hidden="true"
+        viewBox="0 0 16 16"
+    >
+        <path
+            fill="currentColor"
+            d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8"
+        ></path>
+        <path
+            fill="currentColor"
+            d="M11.75 8a.75.75 0 0 1-.75.75H8.75V11a.75.75 0 0 1-1.5 0V8.75H5a.75.75 0 0 1 0-1.5h2.25V5a.75.75 0 0 1 1.5 0v2.25H11a.75.75 0 0 1 .75.75"
         ></path>
     </svg>
 );

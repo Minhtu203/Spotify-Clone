@@ -13,8 +13,8 @@ function MainView() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [playHover, setPlayHover] = useState(null);
-    const artists = useSelector((state) => state.artists.artist?.allArtist);
 
+    const artists = useSelector((state) => state.artists.artist?.allArtist);
     useEffect(() => {
         getAllArtist(dispatch, navigate);
     }, [dispatch, navigate]);
@@ -25,6 +25,7 @@ function MainView() {
     const handlePlayMusic = () => {
         console.log('clicked play');
     };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('header-btn')}>

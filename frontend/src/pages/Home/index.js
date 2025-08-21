@@ -28,7 +28,7 @@ export default function Home() {
         } else if (user?.accessToken) {
             getAllUsers(user?.accessToken, dispatch, axiosJWT);
         }
-    }, [user, navigate, dispatch, axiosJWT]);
+    }, [user, user?.accessToken, dispatch, navigate, axiosJWT]);
 
     return (
         <div className={cx('wrapper')}>

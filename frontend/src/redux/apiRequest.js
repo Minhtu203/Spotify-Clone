@@ -66,12 +66,11 @@ export const getAllArtist = async (dispatch, navigate) => {
     }
 };
 
-export const getArtistDetail = async (dispatch, navigate, id) => {
+export const getArtistDetail = async (dispatch, id) => {
     dispatch(getArtistStart());
     try {
         const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
         dispatch(getArtistDetailSuccess(res.data));
-        navigate(`/artists/${id}`);
     } catch (error) {
         dispatch(getArtistFailed());
     }
@@ -109,15 +108,23 @@ export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
 export const deleteUser = async (userId, dispatch, accessToken, axiosJWT) => {
     dispatch(deleteUserStart());
     try {
-        const res = await axiosJWT.delete(`http://localhost:5000/api/user/${userId}`, {
+        await axiosJWT.delete(`http://localhost:5000/api/user/${userId}`, {
             headers: {
                 token: `Bearer ${accessToken}`,
             },
         });
-        console.log(res.data);
-
         dispatch(deleteUserSuccess(userId));
     } catch (err) {
         dispatch(deleteUserFailed());
+    }
+};
+
+export const getAllSongById = async (dispatch, artist_id) => {
+    dispatch(getSongStart());
+    try {
+        const res = await axios.get(`http://localhost:5000/api/songs/artist/${artist_id}`);
+        dispatch(getSongSuccess(res.data));
+    } catch (error) {
+        dispatch(getSongFailed());
     }
 };

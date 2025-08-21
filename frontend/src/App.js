@@ -16,7 +16,10 @@ function App() {
                     <Route path="/" element={<Home />}>
                         {homeRoutes.map((route, index) => {
                             const Page = route.component;
-                            return <Route key={index} path={route.path} element={<Page />} />;
+                            if (route.index) {
+                                return <Route key={index} index element={<Page />} />;
+                            }
+                            return <Route key={index} index path={route.path} element={<Page />} />;
                         })}
                     </Route>
 

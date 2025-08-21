@@ -34,7 +34,7 @@ export const authController = {
         admin: user.admin,
       },
       process.env.MY_ACCESS_KEY,
-      { expiresIn: "7d" }
+      { expiresIn: "20s" }
     );
   },
   generateRefreshToken: (user) => {

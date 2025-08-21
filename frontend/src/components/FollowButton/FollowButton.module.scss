@@ -1,0 +1,13 @@
+.follow-btn {
+    background: none;
+    color: var(--gray);
+    border: 0.1rem solid var(--gray);
+    cursor: pointer;
+    border-radius: 2rem;
+    padding: 0 2rem;
+
+    &:hover {
+        transform: scale(1.04);
+        color: var(--white);
+    }
+}
