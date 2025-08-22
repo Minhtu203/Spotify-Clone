@@ -9,7 +9,14 @@ import {
     registerSuccess,
 } from './authSlice';
 import { registerStart } from '../redux/authSlice';
-import { getSongFailed, getSongStart, getSongSuccess } from './songSlice';
+import {
+    getCurrentSongFailed,
+    getCurrentSongStart,
+    getCurrentSongSuccess,
+    getSongFailed,
+    getSongStart,
+    getSongSuccess,
+} from './songSlice';
 import { getArtistDetailSuccess, getArtistFailed, getArtistStart, getArtistSuccess } from './artistSlice';
 import {
     deleteUserFailed,
@@ -54,6 +61,37 @@ export const getAllSongs = async (dispatch, navigate) => {
     }
 };
 
+export const getSongById = async (dispatch, songId) => {
+    dispatch(getCurrentSongStart());
+    try {
+        const res = await axios.get(`http://localhost:5000/api/songs/${songId}`);
+        dispatch(getCurrentSongSuccess(res.data));
+    } catch (error) {
+        dispatch(getCurrentSongFailed());
+    }
+};
+
+//get all songs by artistId
+export const getAllSongById = async (dispatch, artist_id) => {
+    dispatch(getSongStart());
+    try {
+        const res = await axios.get(`http://localhost:5000/api/songs/artist/${artist_id}`);
+        dispatch(getSongSuccess(res.data));
+    } catch (error) {
+        dispatch(getSongFailed());
+    }
+};
+
+export const getSongBySongId = async (dispatch, songId) => {
+    dispatch(getCurrentSongStart());
+    try {
+        const res = await axios.get(`http://localhost:5000/api/songs/${songId}`);
+        dispatch(getCurrentSongSuccess(res.data));
+    } catch (error) {
+        dispatch(getCurrentSongFailed());
+    }
+};
+
 export const getAllArtist = async (dispatch, navigate) => {
     dispatch(getArtistStart());
     try {
@@ -66,11 +104,12 @@ export const getAllArtist = async (dispatch, navigate) => {
     }
 };
 
-export const getArtistDetail = async (dispatch, id) => {
+export const getArtistDetail = async (dispatch, navigate, id) => {
     dispatch(getArtistStart());
     try {
         const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
         dispatch(getArtistDetailSuccess(res.data));
+        navigate(`/artists/${id}`, { replace: true });
     } catch (error) {
         dispatch(getArtistFailed());
     }
@@ -116,15 +155,5 @@ export const deleteUser = async (userId, dispatch, accessToken, axiosJWT) => {
         dispatch(deleteUserSuccess(userId));
     } catch (err) {
         dispatch(deleteUserFailed());
-    }
-};
-
-export const getAllSongById = async (dispatch, artist_id) => {
-    dispatch(getSongStart());
-    try {
-        const res = await axios.get(`http://localhost:5000/api/songs/artist/${artist_id}`);
-        dispatch(getSongSuccess(res.data));
-    } catch (error) {
-        dispatch(getSongFailed());
     }
 };

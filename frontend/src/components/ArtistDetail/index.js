@@ -2,31 +2,31 @@ import classNames from 'classnames/bind';
 import style from './ArtistDetail.module.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
-import { AddIcon, ListIcon, PlayMusicIcon, VerifiedIcon } from '../../assets/Icon';
+import { AddIcon, PlayMusicIcon, VerifiedIcon } from '../../assets/Icon';
 import { FollowButton } from '../FollowButton';
 import 'primeicons/primeicons.css';
 import { Fragment, useEffect, useState } from 'react';
-import { getAllSongById, getArtistDetail } from '../../redux/apiRequest';
+import { getAllSongById, getSongBySongId } from '../../redux/apiRequest';
 
 const cx = classNames.bind(style);
 
 function ArtistDetail() {
     const [playInSongItem, setPlayInSongItem] = useState(null);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { id } = useParams();
 
-    useEffect(() => {
-        getArtistDetail(dispatch, id);
-    }, [dispatch, id]);
+    //get artist._id
     const artist = useSelector((state) => state.artists.artist?.artistDetail);
 
     //call api get songs by artist id
     useEffect(() => {
-        getAllSongById(dispatch, id);
-    }, [dispatch, id]);
+        getAllSongById(dispatch, artist._id);
+    }, [dispatch, artist._id]);
     const songs = useSelector((state) => state.songs.songs?.allSongs);
+
+    // dispatch songId
+    const handlePlaySong = (id) => {
+        getSongBySongId(dispatch, id);
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -68,7 +68,7 @@ function ArtistDetail() {
                                 >
                                     <div className={cx('stt-img')}>
                                         {playInSongItem === song._id ? (
-                                            <span style={{ width: '2rem' }}>
+                                            <span style={{ width: '2rem' }} onClick={() => handlePlaySong(song._id)}>
                                                 <PlayMusicIcon className={cx('play-icon')} />
                                             </span>
                                         ) : (

@@ -2,10 +2,12 @@ import classNames from 'classnames/bind';
 import style from './MainView.module.scss';
 
 import { useEffect, useState } from 'react';
-import { getAllArtist } from '../../../redux/apiRequest';
+import { getAllArtist, getArtistDetail } from '../../../redux/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { PlayMusicIcon } from '../../../assets/Icon';
+import { getSongSuccess } from '../../../redux/songSlice';
+import { getArtistDetailSuccess } from '../../../redux/artistSlice';
 
 const cx = classNames.bind(style);
 
@@ -20,10 +22,10 @@ function MainView() {
     }, [dispatch, navigate]);
 
     const handleArtist = (artistId) => {
-        navigate(`/artists/${artistId}`, { replace: true });
+        getArtistDetail(dispatch, navigate, artistId);
     };
     const handlePlayMusic = () => {
-        console.log('clicked play');
+        console.log('handlePlayMusic');
     };
 
     return (

@@ -4,18 +4,24 @@
     background-color: var(--black);
     padding: 0;
     margin: 0;
-    position: absolute;
+    position: fixed;
     bottom: 0;
+    display: flex;
 }
 
 .current-song {
     width: 30%;
     height: 100%;
-    background-color: red !important;
+    background-color: red;
 }
 
 .main-control {
-
+    display: flex;
+    flex: 1;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    color: white;
 }
 
 .progress-bar-btn {
@@ -27,5 +33,10 @@
 }
 
 .action-right-bar {
-
+    height: 100%;
+    width: 30%;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: violet;
 }

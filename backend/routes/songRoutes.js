@@ -12,6 +12,10 @@ const router = express.Router();
 
 router.get("/", getAllSongs);
 
+//get song by songId
+router.get("/:songId", getSong);
+
+//get all songs by artistId
 router.get("/artist/:id", getAllSongById);
 
 router.post("/", createSong);

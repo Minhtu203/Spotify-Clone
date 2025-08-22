@@ -1,4 +1,5 @@
 import Song from "../models/songModel.js";
+import mongoose from "mongoose";
 
 export const getAllSongs = async (req, res) => {
   try {
@@ -20,7 +21,8 @@ export const createSong = async (req, res) => {
 
 export const getSong = async (req, res) => {
   try {
-    const song = await Song.findById(req.params.id).populate("artist album");
+    const songId = req.params.songId; // ⚠️ phải dùng songId
+    const song = await Song.findById(songId).populate("artist album");
     if (!song) return res.status(404).json({ message: "Song not found" });
     res.json(song);
   } catch (err) {
@@ -43,11 +45,20 @@ export const incrementPlay = async (req, res) => {
 export const getAllSongById = async (req, res) => {
   try {
     const artist_id = req.params.id;
-    if (!artist_id) {
-      return res.status(400).json({ message: "artist_id is not valid" });
+    if (!mongoose.Types.ObjectId.isValid(artist_id)) {
+      return res
+        .status(400)
+        .json({ message: "artist_id is not valid ObjectId" });
     }
+    const songs = await Song.find({
+      artist: new mongoose.Types.ObjectId(artist_id),
+    }).populate("artist");
 
-    const songs = await Song.find({ artist: artist_id }).populate("artist");
+    if (!songs || songs.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No songs found for this artist" });
+    }
     res.status(200).json(songs);
   } catch (error) {
     res.status(500).json({ message: error.message });
