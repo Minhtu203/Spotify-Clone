@@ -6,6 +6,7 @@ import DefaultLayout from './components/DefaultLayout';
 import Home from './pages/Home';
 import MainView from './components/DefaultLayout/MainView';
 import ArtistDetail from './components/ArtistDetail';
+import ControlBar from './components/ControlBar';
 
 function App() {
     return (

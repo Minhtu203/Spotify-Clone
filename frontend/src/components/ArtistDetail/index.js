@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import style from './ArtistDetail.module.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { AddIcon, PlayMusicIcon, VerifiedIcon } from '../../assets/Icon';
+import { AddIcon, PauseIcon, PlayMusicIcon, VerifiedIcon } from '../../assets/Icon';
 import { FollowButton } from '../FollowButton';
 import 'primeicons/primeicons.css';
 import { Fragment, useEffect, useState } from 'react';
@@ -12,18 +12,20 @@ import { UseAudioPlayer } from '../../lib/useAudioPlayer';
 const cx = classNames.bind(style);
 
 function ArtistDetail() {
+    const { togglePlayPause, isPlaying } = UseAudioPlayer();
+
     const [playInSongItem, setPlayInSongItem] = useState(null);
     const dispatch = useDispatch();
-    const [currentSong, setCurrentSong] = useState(null);
-
+    const songs = useSelector((state) => state.songs.songs?.allSongs);
     //get artist._id
     const artist = useSelector((state) => state.artists.artist?.artistDetail);
+
+    const currentSong = useSelector((state) => state.songs.songs?.currentSong);
 
     //call api get songs by artist id
     useEffect(() => {
         getAllSongById(dispatch, artist._id);
     }, [dispatch, artist._id]);
-    const songs = useSelector((state) => state.songs.songs?.allSongs);
 
     // dispatch songId
     const handlePlaySong = (id) => {
@@ -47,20 +49,25 @@ function ArtistDetail() {
                 </div>
                 <div style={{ padding: '0 2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <div className={cx('action-btn')}>
-                        <button
-                            className={cx('play-btn')}
-                            onClick={() => {
-                                if (currentSong) {
-                                    handlePlaySong(currentSong._id);
-                                } else if (songs && songs.length > 0) {
-                                    handlePlaySong(songs[0]._id);
-                                    setCurrentSong(songs[0]);
-                                }
-                            }}
-                        >
-                            <PlayMusicIcon style={{ width: '2rem', height: '2rem' }} />
-                        </button>
-                        {/* pause button */}
+                        {!isPlaying ? (
+                            <button
+                                className={cx('play-btn')}
+                                onClick={() => {
+                                    togglePlayPause();
+                                }}
+                            >
+                                <PlayMusicIcon style={{ width: '2rem', height: '2rem' }} />
+                            </button>
+                        ) : (
+                            <button
+                                className={cx('play-btn')}
+                                onClick={() => {
+                                    togglePlayPause();
+                                }}
+                            >
+                                <PauseIcon style={{ width: '2rem', height: '2rem' }} />
+                            </button>
+                        )}
 
                         <div className={cx('album')}>
                             <img alt={artist.name} src={artist.imageUrl} />
@@ -82,15 +89,28 @@ function ArtistDetail() {
                                 >
                                     <div className={cx('stt-img')}>
                                         {playInSongItem === song._id ? (
-                                            <span
-                                                style={{ width: '2rem' }}
-                                                onClick={() => {
-                                                    handlePlaySong(song._id);
-                                                    setCurrentSong(song);
-                                                }}
-                                            >
-                                                <PlayMusicIcon className={cx('play-icon')} />
-                                            </span>
+                                            <>
+                                                {song._id === currentSong._id && isPlaying === true ? (
+                                                    <span
+                                                        style={{ width: '2rem' }}
+                                                        onClick={() => {
+                                                            togglePlayPause();
+                                                        }}
+                                                    >
+                                                        <PauseIcon className={cx('play-icon')} />
+                                                    </span>
+                                                ) : (
+                                                    <span
+                                                        style={{ width: '2rem' }}
+                                                        onClick={() => {
+                                                            handlePlaySong(song._id);
+                                                            togglePlayPause();
+                                                        }}
+                                                    >
+                                                        <PlayMusicIcon className={cx('play-icon')} />
+                                                    </span>
+                                                )}
+                                            </>
                                         ) : (
                                             <div className={cx('stt')}>{index + 1}</div>
                                         )}

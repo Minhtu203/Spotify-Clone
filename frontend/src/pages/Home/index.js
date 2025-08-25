@@ -1,6 +1,5 @@
 import Header from '../../components/DefaultLayout/Header';
 import Sidebar from '../../components/DefaultLayout/Sidebar';
-import ControlBar from '../../components/ControlBar';
 import classNames from 'classnames/bind';
 import style from './Home.module.scss';
 import RightActionBar from '../../components/DefaultLayout/RightActionBar';
@@ -11,6 +10,7 @@ import { getAllUsers } from '../../redux/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess } from '../../redux/authSlice';
 import { CreateAxios } from '../../createAxios';
+import ControlBar from '../../components/ControlBar';
 
 const cx = classNames.bind(style);
 
@@ -38,6 +38,7 @@ export default function Home() {
                 <Outlet />
                 <RightActionBar />
             </div>
+
             <ControlBar />
         </div>
     );

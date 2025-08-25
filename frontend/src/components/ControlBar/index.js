@@ -1,8 +1,7 @@
 import classNames from 'classnames/bind';
 import style from './ControlBar.module.scss';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getArtistDetail, getSongById } from '../../redux/apiRequest';
+import { useDispatch } from 'react-redux';
+import { getArtistDetail } from '../../redux/apiRequest';
 import { useNavigate } from 'react-router-dom';
 import { NextIcon, PauseIcon, PlayMusicIcon, PrevIcon, RandomIcon, RepeatIcon } from '../../assets/Icon';
 import { Slider } from 'primereact/slider';
@@ -14,11 +13,18 @@ function ControlBar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    //get current song
-    const song = useSelector((state) => state.songs?.songs?.currentSong);
-
-    const { isPlaying, currentTime, duration, togglePlayPause, handleSeek, formatTime, playRandomSong, prevSong } =
-        UseAudioPlayer(song);
+    const {
+        song,
+        isPlaying,
+        currentTime,
+        duration,
+        audioRef,
+        togglePlayPause,
+        handleSeek,
+        formatTime,
+        playRandomSong,
+        prevSong,
+    } = UseAudioPlayer();
 
     const handleArtist = (artistid) => {
         getArtistDetail(dispatch, navigate, artistid);
@@ -40,9 +46,11 @@ function ControlBar() {
                     <button>
                         <RandomIcon className={cx('random-icon', 'icon')} />
                     </button>
-                    <button>
+                    <button onClick={prevSong}>
                         <PrevIcon className={cx('prev-icon', 'icon')} />
                     </button>
+
+                    <audio ref={audioRef} src={song.audioUrl}></audio>
                     {!isPlaying ? (
                         <button className={cx('play-icon-btn')} onClick={() => togglePlayPause()}>
                             <PlayMusicIcon className={cx('play-icon', 'icon')} />

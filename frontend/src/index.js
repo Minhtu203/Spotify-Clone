@@ -7,13 +7,16 @@ import GlobalStyle from './components/GlobalStyle/index';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { AudioProvider } from './lib/AudioContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
             <GlobalStyle>
-                <App />
+                <AudioProvider>
+                    <App />
+                </AudioProvider>
             </GlobalStyle>
         </PersistGate>
     </Provider>,

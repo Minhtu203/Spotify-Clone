@@ -6,7 +6,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 
 const publicRoutes = [
-    { path: '/', component: Home, layout: DefaultLayout },
+    { path: '/', component: Home, layout: null },
     { path: '/login', component: Login, layout: null },
     { path: '/register', component: Register, layout: null },
 ];
