@@ -7,12 +7,14 @@ import { FollowButton } from '../FollowButton';
 import 'primeicons/primeicons.css';
 import { Fragment, useEffect, useState } from 'react';
 import { getAllSongById, getSongBySongId } from '../../redux/apiRequest';
+import { UseAudioPlayer } from '../../lib/useAudioPlayer';
 
 const cx = classNames.bind(style);
 
 function ArtistDetail() {
     const [playInSongItem, setPlayInSongItem] = useState(null);
     const dispatch = useDispatch();
+    const [currentSong, setCurrentSong] = useState(null);
 
     //get artist._id
     const artist = useSelector((state) => state.artists.artist?.artistDetail);
@@ -45,9 +47,21 @@ function ArtistDetail() {
                 </div>
                 <div style={{ padding: '0 2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <div className={cx('action-btn')}>
-                        <button className={cx('play-btn')}>
+                        <button
+                            className={cx('play-btn')}
+                            onClick={() => {
+                                if (currentSong) {
+                                    handlePlaySong(currentSong._id);
+                                } else if (songs && songs.length > 0) {
+                                    handlePlaySong(songs[0]._id);
+                                    setCurrentSong(songs[0]);
+                                }
+                            }}
+                        >
                             <PlayMusicIcon style={{ width: '2rem', height: '2rem' }} />
                         </button>
+                        {/* pause button */}
+
                         <div className={cx('album')}>
                             <img alt={artist.name} src={artist.imageUrl} />
                         </div>
@@ -68,7 +82,13 @@ function ArtistDetail() {
                                 >
                                     <div className={cx('stt-img')}>
                                         {playInSongItem === song._id ? (
-                                            <span style={{ width: '2rem' }} onClick={() => handlePlaySong(song._id)}>
+                                            <span
+                                                style={{ width: '2rem' }}
+                                                onClick={() => {
+                                                    handlePlaySong(song._id);
+                                                    setCurrentSong(song);
+                                                }}
+                                            >
                                                 <PlayMusicIcon className={cx('play-icon')} />
                                             </span>
                                         ) : (

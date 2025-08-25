@@ -7,11 +7,7 @@ const songSlice = createSlice({
             allSongs: null,
             isFetching: false,
             error: false,
-        },
-        currentSong: {
-            isFetching: false,
-            song: null,
-            error: false,
+            currentSong: null,
         },
     },
     reducers: {
@@ -27,17 +23,15 @@ const songSlice = createSlice({
             state.songs.error = true;
         },
         getCurrentSongStart: (state) => {
-            state.currentSong.isFetching = true;
-            state.currentSong.error = false;
+            state.songs.isFetching = true;
         },
         getCurrentSongSuccess: (state, action) => {
-            state.currentSong.isFetching = false;
-            state.currentSong.song = action.payload;
-            state.currentSong.error = false;
+            state.songs.isFetching = false;
+            state.songs.currentSong = action.payload;
+            state.songs.error = false;
         },
         getCurrentSongFailed: (state) => {
-            state.currentSong.isFetching = false;
-            state.currentSong.error = true;
+            state.songs.error = true;
         },
     },
 });
