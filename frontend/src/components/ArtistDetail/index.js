@@ -3,29 +3,28 @@ import style from './ArtistDetail.module.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AddIcon, PauseIcon, PlayMusicIcon, VerifiedIcon } from '../../assets/Icon';
-import { FollowButton } from '../FollowButton';
+import { FollowButton, UnFollowBtn } from '../FollowButton';
 import 'primeicons/primeicons.css';
 import { Fragment, useEffect, useState } from 'react';
-import { getAllSongById, getSongBySongId } from '../../redux/apiRequest';
+import { getAllSongById, getLikedArtistDetail, getSongBySongId } from '../../redux/apiRequest';
 import { UseAudioPlayer } from '../../lib/useAudioPlayer';
 
 const cx = classNames.bind(style);
 
 function ArtistDetail() {
     const { togglePlayPause, isPlaying } = UseAudioPlayer();
-
     const [playInSongItem, setPlayInSongItem] = useState(null);
     const dispatch = useDispatch();
-    const songs = useSelector((state) => state.songs.songs?.allSongs);
-    //get artist._id
-    const artist = useSelector((state) => state.artists.artist?.artistDetail);
-
-    const currentSong = useSelector((state) => state.songs.songs?.currentSong);
+    const songs = useSelector((state) => state.songs.songs?.allSongs); //all songs
+    const currentSong = useSelector((state) => state.songs.songs?.currentSong); //current song
+    const artist = useSelector((state) => state.artists.artist?.artistDetail); //get artist._id
+    const isFollowed = useSelector((state) => state.artists.artist?.isFollowed);
 
     //call api get songs by artist id
     useEffect(() => {
         getAllSongById(dispatch, artist._id);
-    }, [dispatch, artist._id]);
+        getLikedArtistDetail(dispatch, artist._id);
+    }, [dispatch, artist._id, isFollowed]);
 
     // dispatch songId
     const handlePlaySong = (id) => {
@@ -72,9 +71,15 @@ function ArtistDetail() {
                         <div className={cx('album')}>
                             <img alt={artist.name} src={artist.imageUrl} />
                         </div>
-                        <span>
-                            <FollowButton height="3rem" />
-                        </span>
+                        {isFollowed ? (
+                            <span>
+                                <FollowButton height="3rem" />
+                            </span>
+                        ) : (
+                            <span>
+                                <UnFollowBtn height="3rem" />
+                            </span>
+                        )}
                         <i className={cx('ellipsis-icon', 'pi pi-ellipsis-h')}></i>
                     </div>
                     <span className={cx('popular')}>Popular</span>

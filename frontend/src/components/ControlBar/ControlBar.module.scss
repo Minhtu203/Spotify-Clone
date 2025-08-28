@@ -84,6 +84,10 @@ button {
     height: 3.2rem;
     background-color: var(--white);
     border-radius: 50%;
+
+    &:active {
+        transform: scale(0.9);
+    }
 }
 
 .play-icon {
@@ -107,6 +111,20 @@ button {
     .duration {
         width: 80%;
         height: 0.4rem;
+        &:hover {
+            :global(.p-slider-range) {
+                background-color: var(--primary);
+            } 
+            :global(.p-slider-handle) {
+                height: 1.3rem;
+                width: 1.3rem;
+                border-radius: 50%;
+                margin-top: -0.6rem;
+                margin-left: -0.7rem;
+                background-color: var(--white);
+                cursor: pointer;
+            }
+        }
     }
     :global(.p-slider)  {
         border-radius: 2rem;
@@ -114,23 +132,72 @@ button {
         cursor: pointer;
     }
     :global(.p-slider-range) {
-        height: 0.4rem;
-        border-radius: 2rem;
-        background-color: var(--primary);
-    }   
-    :global(.p-slider-handle) {
-        height: 1.3rem;
-        width: 1.3rem;
-        border-radius: 50%;
-        margin-top: -0.6rem;
         background-color: var(--white);
-        cursor: pointer;
-    }
+    }   
+   
 }
 
 
 .action-right-bar {
     height: 100%;
     width: 30%;
-    background-color: violet;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    flex-direction: row;
+    gap: 1rem;
+    padding-right: 2rem;
+
+    .volume-container {
+        display: flex;
+        height: 100%;
+        flex-direction: row;
+        align-items: center;
+    }
 }
+
+.right-action-bar-btn {
+    
+}
+
+.right-action-bar-icon {
+    color: var(--gray);
+
+    &:hover {
+        transform: scale(1.15);
+        color: var(--white);
+    }
+}
+
+.volume {
+    display: flex;
+    width: 8rem;
+    height: 0.3rem;
+    cursor: pointer;
+    border-radius: 2rem;
+
+    &:hover {
+        :global(.p-slider-handle) {
+            height: 1.1rem;
+            width: 1.1rem;
+            border-radius: 50%;
+            margin-top: -0.5rem;
+            margin-left: -0.3rem;
+            background-color: var(--white);
+            cursor: pointer;
+        }
+        :global(.p-slider-range) {
+            background-color: var(--primary);
+        }
+    }
+}
+:global(.p-slider)  {
+    border-radius: 2rem;
+    background-color: var(--dark);
+    cursor: pointer;
+}
+:global(.p-slider-range) {
+    border-radius: 2rem;
+    background-color: var(--white);
+} 
+

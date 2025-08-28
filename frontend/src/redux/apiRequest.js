@@ -17,11 +17,18 @@ import {
     getSongStart,
     getSongSuccess,
 } from './songSlice';
-import { getArtistDetailSuccess, getArtistFailed, getArtistStart, getArtistSuccess } from './artistSlice';
+import {
+    getArtistDetailSuccess,
+    getArtistFailed,
+    getArtistStart,
+    getArtistSuccess,
+    getLikedArtistDetailSuccess,
+} from './artistSlice';
 import {
     deleteUserFailed,
     deleteUserStart,
     deleteUserSuccess,
+    getCurrentUserSuccess,
     getUserFailed,
     getUserStart,
     getUserSuccess,
@@ -33,9 +40,27 @@ export const loginUser = async (user, dispatch, navigate) => {
         const res = await axios.post('http://localhost:5000/api/auth/login', user, { withCredentials: true });
         dispatch(loginSuccess(res.data));
         navigate('/');
+        return null;
     } catch (error) {
         dispatch(loginFailed());
         return error.response?.data?.message || 'Login failed';
+    }
+};
+
+export const LogOut = async (dispatch, navigate) => {
+    dispatch(logOutStart());
+    try {
+        await axios.post(
+            'http://localhost:5000/api/auth/logout',
+            {},
+            {
+                withCredentials: true,
+            },
+        );
+        dispatch(logOutSuccess());
+        navigate('/login');
+    } catch (error) {
+        dispatch(logOutFailed());
     }
 };
 
@@ -50,12 +75,11 @@ export const registerUser = async (user, dispatch, navigate) => {
     }
 };
 
-export const getAllSongs = async (dispatch, navigate) => {
+export const getAllSongs = async (dispatch) => {
     dispatch(getSongStart());
     try {
         const res = await axios.get('http://localhost:5000/api/songs/');
         dispatch(getSongSuccess(res.data));
-        navigate('/');
     } catch (error) {
         dispatch(getSongFailed());
     }
@@ -97,38 +121,29 @@ export const getAllArtist = async (dispatch, navigate) => {
     try {
         const res = await axios.get('http://localhost:5000/api/artists/');
         dispatch(getArtistSuccess(res.data));
-
         navigate('/');
     } catch (error) {
         dispatch(getArtistFailed());
     }
 };
 
-export const getArtistDetail = async (dispatch, navigate, id) => {
+export const getArtistDetail = async (dispatch, id) => {
     dispatch(getArtistStart());
     try {
         const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
         dispatch(getArtistDetailSuccess(res.data));
-        navigate(`/artists/${id}`, { replace: true });
     } catch (error) {
         dispatch(getArtistFailed());
     }
 };
 
-export const LogOut = async (dispatch, navigate) => {
-    dispatch(logOutStart());
+export const getLikedArtistDetail = async (dispatch, id) => {
+    dispatch(getArtistStart());
     try {
-        await axios.post(
-            'http://localhost:5000/api/auth/logout',
-            {},
-            {
-                withCredentials: true,
-            },
-        );
-        dispatch(logOutSuccess());
-        navigate('/login');
+        const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
+        dispatch(getLikedArtistDetailSuccess(res.data)); // push vào list liked
     } catch (error) {
-        dispatch(logOutFailed());
+        dispatch(getArtistFailed());
     }
 };
 

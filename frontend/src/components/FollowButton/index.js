@@ -14,3 +14,15 @@ export const FollowButton = ({ width, height, style }) => (
         Follow
     </button>
 );
+
+export const UnFollowBtn = ({ width, height, style }) => (
+    <button
+        className={cx('follow-btn')}
+        style={{
+            width,
+            height,
+        }}
+    >
+        Unfollow
+    </button>
+);

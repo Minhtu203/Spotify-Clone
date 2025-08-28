@@ -38,7 +38,6 @@ export default function Home() {
                 <Outlet />
                 <RightActionBar />
             </div>
-
             <ControlBar />
         </div>
     );

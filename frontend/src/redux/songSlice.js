@@ -6,14 +6,14 @@ const songSlice = createSlice({
         songs: {
             allSongs: null,
             // todo
-            allSongsInArtistPage: null,
-            //
             isFetching: false,
             error: false,
             currentSong: null,
             isPlaying: false,
             duration: 0,
             currentTime: 0,
+            randomBtn: false,
+            repeatMode: false,
         },
     },
     reducers: {
@@ -50,6 +50,12 @@ const songSlice = createSlice({
         setCurrentTime: (state, action) => {
             state.songs.currentTime = action.payload;
         },
+        setRandomBtn: (state, action) => {
+            state.songs.randomBtn = action.payload;
+        },
+        setRepeatMode: (state, action) => {
+            state.songs.repeatMode = action.payload;
+        },
     },
 });
 
@@ -63,5 +69,7 @@ export const {
     setIsPlaying,
     setDuration,
     setCurrentTime,
+    setRandomBtn,
+    setRepeatMode,
 } = songSlice.actions;
 export default songSlice.reducer;

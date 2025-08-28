@@ -3,7 +3,7 @@ import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
 import { BrowseIcon, HomeIcon, SearchIcon, SpotifyIcon } from '../../../assets/Icon';
 
-import { useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSongs, LogOut } from '../../../redux/apiRequest';
 
@@ -21,23 +21,23 @@ export default function Header() {
         inputRef.current?.focus();
     };
     const Songs = useSelector((state) => state.songs.songs?.allSongs);
-    useEffect(() => {
-        getAllSongs(dispatch);
-    }, [dispatch]);
+    // useEffect(() => {
+    //     getAllSongs(dispatch);
+    // }, [dispatch]);
 
     const handleLogOut = () => {
         LogOut(dispatch, navigate);
     };
     return (
         <div className={cx('header-wrapper')}>
-            <a href="/" alt="spotify" className={cx('logo')}>
+            <Link to="/" alt="spotify" className={cx('logo')}>
                 <SpotifyIcon />
-            </a>
+            </Link>
 
             <div className={cx('search-container')}>
-                <a href="/" alt="home" className={cx('home-btn')} style={{ position: 'relative' }}>
+                <Link to="/" alt="home" className={cx('home-btn')} style={{ position: 'relative' }}>
                     <HomeIcon />
-                </a>
+                </Link>
                 <div className={cx('search-container-sub')}>
                     {/* thanh tim kiem */}
                     <div className={cx('search-input-container')}>

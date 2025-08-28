@@ -1,11 +1,19 @@
-import { useEffect, useContext } from 'react';
-import { getSongById } from '../redux/apiRequest';
+import { useEffect, useContext, useState } from 'react';
+import { getAllSongs, getSongById, getSongBySongId } from '../redux/apiRequest';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentSongSuccess, setCurrentTime, setDuration, setIsPlaying } from '../redux/songSlice';
+import {
+    getCurrentSongSuccess,
+    setCurrentTime,
+    setDuration,
+    setIsPlaying,
+    setRandomBtn,
+    setRepeatMode,
+} from '../redux/songSlice';
 import { AudioContext } from './AudioContext';
 
 export const UseAudioPlayer = () => {
     const dispatch = useDispatch();
+    const [volume, setVolume] = useState(100);
 
     //get all songs
     const songs = useSelector((state) => state.songs?.songs?.allSongs);
@@ -15,6 +23,10 @@ export const UseAudioPlayer = () => {
     const isPlaying = useSelector((state) => state.songs.songs?.isPlaying);
     const duration = useSelector((state) => state.songs.songs?.duration);
     const currentTime = useSelector((state) => state.songs.songs?.currentTime);
+    const randomBtn = useSelector((state) => state.songs.songs?.randomBtn);
+    const repeatMode = useSelector((state) => state.songs.songs?.repeatMode);
+    const [mute, setMute] = useState(false);
+    const [lastVolume, setLastVolume] = useState(40);
 
     // audio
     const audioRef = useContext(AudioContext);
@@ -32,7 +44,16 @@ export const UseAudioPlayer = () => {
                 dispatch(setCurrentTime(audioRef.current.currentTime));
             };
             audioRef.current.onended = () => {
-                playRandomSong();
+                if (repeatMode) {
+                    repeatSong();
+                    return;
+                }
+
+                if (randomBtn) {
+                    playRandomSong();
+                } else {
+                    playNextSong();
+                }
             };
 
             audioRef.current
@@ -48,12 +69,38 @@ export const UseAudioPlayer = () => {
                 dispatch(setIsPlaying(false));
             }
         }
-        // return () => {
-        //     audioRef.onloadedmetadata = null;
-        //     audioRef.ontimeupdate = null;
-        //     audioRef.onended = null;
-        // };
+        return () => {
+            audioRef.onloadedmetadata = null;
+            audioRef.ontimeupdate = null;
+            audioRef.onended = null;
+        };
     }, [song]);
+
+    const handleMuteVolume = () => {
+        if (!mute) {
+            setLastVolume(volume);
+            setVolume(0);
+            audioRef.current.volume = 0;
+        } else {
+            setVolume(lastVolume);
+            audioRef.current.volume = lastVolume / 100;
+        }
+        setMute(!mute);
+    };
+
+    const handleVolumeChange = (e) => {
+        const newVolume = e / 100;
+        setVolume(newVolume);
+        if (audioRef.current) {
+            audioRef.current.volume = newVolume;
+        }
+    };
+
+    const playNextSong = () => {
+        const currentSong = songs.findIndex((s) => s._id === song._id);
+        const nextIndex = (currentSong + 1) % songs.length;
+        getSongBySongId(dispatch, songs[nextIndex]._id);
+    };
 
     const handleSeek = (e) => {
         if (!audioRef.current) return;
@@ -94,15 +141,24 @@ export const UseAudioPlayer = () => {
             audioRef.current
                 .play()
                 .then(() => dispatch(setIsPlaying(true)))
-                .catch((err) => console.log('Play error:', err));
+                .catch((err) => console.log(err));
         }, 200);
+    };
+
+    const repeatSong = () => {
+        dispatch(setRepeatMode(false));
+        audioRef.current.currentTime = 0;
+        audioRef.current
+            .play()
+            .then(() => dispatch(setIsPlaying(true)))
+            .catch((err) => console.log(err));
     };
 
     const prevSong = () => {
         if (!songs || songs.length === 0) return;
         const currentIndex = songs.findIndex((s) => s._id === song._id);
         const prevIndex = (currentIndex - 1 + songs.length) % songs.length;
-        getSongById(songs[prevIndex]);
+        getSongById(dispatch, songs[prevIndex]._id);
     };
 
     return {
@@ -117,5 +173,12 @@ export const UseAudioPlayer = () => {
         formatTime,
         playRandomSong,
         prevSong,
+        randomBtn,
+        playNextSong,
+        playRandomSong,
+        repeatMode,
+        handleVolumeChange,
+        volume,
+        handleMuteVolume,
     };
 };
