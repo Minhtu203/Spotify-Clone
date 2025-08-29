@@ -5,15 +5,19 @@ import {
   deleteUser,
   updateUserInfo,
   followArtist,
+  getUserById,
 } from "../controllers/userController.js";
 import { middlewareController } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/", middlewareController.verifyToken, getUsers);
+router.get("/", middlewareController.verifyToken, getUsers); //get all users
+router.get("/:userId", middlewareController.verifyToken, getUserById);
+
 router.post("/", createUser);
-router.delete("/:id", middlewareController.verifyAdminToken, deleteUser);
 router.post("/:id", middlewareController.verifyToken, updateUserInfo);
+
+router.delete("/:id", middlewareController.verifyAdminToken, deleteUser);
 
 // follow artist
 router.post(

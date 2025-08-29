@@ -25,8 +25,7 @@ export const UseAudioPlayer = () => {
     const currentTime = useSelector((state) => state.songs.songs?.currentTime);
     const randomBtn = useSelector((state) => state.songs.songs?.randomBtn);
     const repeatMode = useSelector((state) => state.songs.songs?.repeatMode);
-    const [mute, setMute] = useState(false);
-    const [lastVolume, setLastVolume] = useState(40);
+    const [lastVolume, setLastVolume] = useState(60);
 
     // audio
     const audioRef = useContext(AudioContext);
@@ -77,22 +76,29 @@ export const UseAudioPlayer = () => {
     }, [song]);
 
     const handleMuteVolume = () => {
-        if (!mute) {
+        if (volume === 0) {
+            setVolume(lastVolume);
+            if (audioRef.current) {
+                audioRef.current.volume = lastVolume / 100;
+            }
+        } else {
+            // mute
             setLastVolume(volume);
             setVolume(0);
-            audioRef.current.volume = 0;
-        } else {
-            setVolume(lastVolume);
-            audioRef.current.volume = lastVolume / 100;
+            if (audioRef.current) {
+                audioRef.current.volume = 0;
+            }
         }
-        setMute(!mute);
     };
 
-    const handleVolumeChange = (e) => {
-        const newVolume = e / 100;
+    const handleVolumeChange = (newVolume) => {
+        // const newVolume = e / 100;
         setVolume(newVolume);
         if (audioRef.current) {
-            audioRef.current.volume = newVolume;
+            audioRef.current.volume = newVolume / 100;
+        }
+        if (newVolume > 0) {
+            setLastVolume(newVolume);
         }
     };
 

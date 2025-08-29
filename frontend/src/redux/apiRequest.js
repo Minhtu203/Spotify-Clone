@@ -23,6 +23,7 @@ import {
     getArtistStart,
     getArtistSuccess,
     getLikedArtistDetailSuccess,
+    getUnLikedArtistDetailSuccess,
 } from './artistSlice';
 import {
     deleteUserFailed,
@@ -33,6 +34,7 @@ import {
     getUserStart,
     getUserSuccess,
 } from './userSlice';
+import { useSelector } from 'react-redux';
 
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
@@ -141,11 +143,21 @@ export const getLikedArtistDetail = async (dispatch, id) => {
     dispatch(getArtistStart());
     try {
         const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
-        dispatch(getLikedArtistDetailSuccess(res.data)); // push vào list liked
+        dispatch(getLikedArtistDetailSuccess(res.data));
     } catch (error) {
         dispatch(getArtistFailed());
     }
 };
+
+// export const getUnLikedArtistDetail = async (dispatch, id) => {
+//     dispatch(getArtistStart());
+//     try {
+//         const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
+//         dispatch(getUnLikedArtistDetailSuccess(res.data));
+//     } catch (error) {
+//         dispatch(getArtistFailed());
+//     }
+// };
 
 export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
     dispatch(getUserStart());

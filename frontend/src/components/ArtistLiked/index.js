@@ -18,17 +18,17 @@ function ArtirstLiked() {
     useEffect(() => {
         if (user?.liked?.artists?.length > 0) {
             user?.liked?.artists?.map((a, index) => {
-                // console.log('index: ', index, ' - ', a);
-
                 getLikedArtistDetail(dispatch, a);
             });
         }
     }, [dispatch, user?.liked?.artists]);
 
     const followedArtist = useSelector((state) => state.artists.artist?.likedArtists);
-    // console.log(followedArtist);
 
-    // if (!user) return <div>Vui lòng đăng nhập để xem nghệ sĩ yêu thích</div>;
+    const handleArtist = (artistId) => {
+        getArtistDetail(dispatch, artistId);
+        navigate(`/artists/${artistId}`);
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -49,7 +49,7 @@ function ArtirstLiked() {
             </button>
             {/* map  */}
             {followedArtist?.map((a, index) => (
-                <button className={cx('liked-songs')} key={index}>
+                <button className={cx('liked-songs')} key={index} onClick={() => handleArtist(a._id)}>
                     <img className={cx('artist-avatar')} alt={a.name} src={a.imageUrl} />
                     <div className={cx('content')}>
                         {a.name}

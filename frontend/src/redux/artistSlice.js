@@ -36,13 +36,19 @@ const artistSlice = createSlice({
 
             if (!exists) {
                 state.artist.likedArtists.push(action.payload);
-                // state.artist.isFollowed = true;
-            } else {
-                state.artist.likedArtists = state.artist.likedArtists.filter((a) => a._id !== action.payload._id);
-                // state.artist.isFollowed = false;
             }
-            console.log('likedArtists: ', state.artist.likedArtists);
         },
+        // getUnLikedArtistDetailSuccess: (state, action) => {
+        //     state.artist.isFetching = false;
+        //     if (!Array.isArray(state.artist.likedArtists)) {
+        //         state.artist.likedArtists = [];
+        //     }
+        //     const exists = state.artist.likedArtists.some((a) => a._id === action.payload._id);
+
+        //     if (exists) {
+        //         state.artist.likedArtists.filter((a) => a._id !== action.payload._id);
+        //     }
+        // },
     },
 });
 
@@ -52,5 +58,6 @@ export const {
     getArtistFailed,
     getArtistDetailSuccess,
     getLikedArtistDetailSuccess,
+    getUnLikedArtistDetailSuccess,
 } = artistSlice.actions;
 export default artistSlice.reducer;

@@ -8,6 +8,7 @@ import {
     FullScreenIcon,
     MicroIcon,
     MiniPlayerIcon,
+    MuteVolumeIcon,
     NextIcon,
     NowPlayingIcon,
     PauseIcon,
@@ -45,6 +46,7 @@ function ControlBar() {
         handleVolumeChange,
         volume,
         handleMuteVolume,
+        lastVolume,
     } = UseAudioPlayer();
 
     const handleArtist = (artistid) => {
@@ -139,17 +141,22 @@ function ControlBar() {
                 </button>
 
                 <div className={cx('volume-container')}>
-                    <button className={cx('right-action-bar-btn')} onClick={handleMuteVolume}>
-                        <VolumeIcon className={cx('right-action-bar-icon')} />
-                    </button>
+                    {volume === 0 ? (
+                        <button className={cx('right-action-bar-btn')} onClick={() => handleMuteVolume()}>
+                            <MuteVolumeIcon className={cx('right-action-bar-icon')} />
+                        </button>
+                    ) : (
+                        <button className={cx('right-action-bar-btn')} onClick={() => handleMuteVolume()}>
+                            <VolumeIcon className={cx('right-action-bar-icon')} />
+                        </button>
+                    )}
                     {/* thanh volume */}
                     <Slider
                         className={cx('volume')}
-                        value={volume * 100}
+                        value={volume}
                         onChange={(e) => handleVolumeChange(e.value)}
                         onWheel={(e) => {
-                            // e.preventDefault();
-                            let newVolume = volume * 100;
+                            let newVolume = volume;
                             if (e.deltaY < 0) {
                                 newVolume = Math.min(newVolume + 5, 100);
                             } else {

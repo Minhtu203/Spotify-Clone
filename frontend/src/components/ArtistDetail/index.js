@@ -6,8 +6,9 @@ import { AddIcon, PauseIcon, PlayMusicIcon, VerifiedIcon } from '../../assets/Ic
 import { FollowButton, UnFollowBtn } from '../FollowButton';
 import 'primeicons/primeicons.css';
 import { Fragment, useEffect, useState } from 'react';
-import { getAllSongById, getLikedArtistDetail, getSongBySongId } from '../../redux/apiRequest';
+import { getAllSongById, getLikedArtistDetail, getSongBySongId, getUnLikedArtistDetail } from '../../redux/apiRequest';
 import { UseAudioPlayer } from '../../lib/useAudioPlayer';
+import { getUnLikedArtistDetailSuccess } from '../../redux/artistSlice';
 
 const cx = classNames.bind(style);
 
@@ -30,6 +31,12 @@ function ArtistDetail() {
     const handlePlaySong = (id) => {
         getSongBySongId(dispatch, id);
     };
+
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    // console.log(user);
+    // const handleTest = (artist) => {
+    //     console.log(artist.name, ' - ', artist._id);
+    // };
 
     return (
         <div className={cx('wrapper')}>
@@ -72,11 +79,11 @@ function ArtistDetail() {
                             <img alt={artist.name} src={artist.imageUrl} />
                         </div>
                         {isFollowed ? (
-                            <span>
+                            <span onClick={() => getLikedArtistDetail(dispatch, artist._id)}>
                                 <FollowButton height="3rem" />
                             </span>
                         ) : (
-                            <span>
+                            <span onClick={() => console.log(1111)}>
                                 <UnFollowBtn height="3rem" />
                             </span>
                         )}
