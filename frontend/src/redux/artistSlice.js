@@ -33,6 +33,7 @@ const artistSlice = createSlice({
                 state.artist.likedArtists = [];
             }
             const exists = state.artist.likedArtists.some((a) => a._id === action.payload._id);
+
             if (!exists) {
                 state.artist.likedArtists.push(action.payload);
                 // state.artist.isFollowed = true;
@@ -40,6 +41,7 @@ const artistSlice = createSlice({
                 state.artist.likedArtists = state.artist.likedArtists.filter((a) => a._id !== action.payload._id);
                 // state.artist.isFollowed = false;
             }
+            console.log('likedArtists: ', state.artist.likedArtists);
         },
     },
 });

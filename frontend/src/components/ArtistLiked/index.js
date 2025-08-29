@@ -17,15 +17,16 @@ function ArtirstLiked() {
 
     useEffect(() => {
         if (user?.liked?.artists?.length > 0) {
-            user?.liked?.artists?.forEach((a) => {
+            user?.liked?.artists?.map((a, index) => {
+                // console.log('index: ', index, ' - ', a);
+
                 getLikedArtistDetail(dispatch, a);
             });
         }
     }, [dispatch, user?.liked?.artists]);
 
     const followedArtist = useSelector((state) => state.artists.artist?.likedArtists);
-
-    // const artist = useSelector((state) => state.artists.artist.artistDetail);
+    // console.log(followedArtist);
 
     // if (!user) return <div>Vui lòng đăng nhập để xem nghệ sĩ yêu thích</div>;
 
