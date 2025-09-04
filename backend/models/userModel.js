@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema(
     liked: {
       artists: [{ type: mongoose.Schema.Types.ObjectId, ref: "Artist" }],
       albums: [{ type: mongoose.Schema.Types.ObjectId, ref: "Album" }],
+      songs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Song" }],
     },
     admin: {
       type: Boolean,
