@@ -9,7 +9,6 @@ const artistSlice = createSlice({
             error: false,
             artistDetail: null,
             likedArtists: [],
-            isFollowed: false,
         },
     },
     reducers: {
@@ -27,28 +26,22 @@ const artistSlice = createSlice({
             state.artist.isFetching = false;
             state.artist.artistDetail = action.payload;
         },
-        getLikedArtistDetailSuccess: (state, action) => {
-            state.artist.isFetching = false;
-            if (!Array.isArray(state.artist.likedArtists)) {
-                state.artist.likedArtists = [];
-            }
-            const exists = state.artist.likedArtists.some((a) => a._id === action.payload._id);
-
-            if (!exists) {
-                state.artist.likedArtists.push(action.payload);
-            }
+        resetLikedArtists: (state) => {
+            state.artist.likedArtists = [];
         },
-        // getUnLikedArtistDetailSuccess: (state, action) => {
-        //     state.artist.isFetching = false;
-        //     if (!Array.isArray(state.artist.likedArtists)) {
-        //         state.artist.likedArtists = [];
-        //     }
-        //     const exists = state.artist.likedArtists.some((a) => a._id === action.payload._id);
-
-        //     if (exists) {
-        //         state.artist.likedArtists.filter((a) => a._id !== action.payload._id);
-        //     }
-        // },
+        likeArtist: (state, action) => {
+            state.artist.isFetching = false;
+            // if (!Array.isArray(state.artist.likedArtists)) {
+            //     state.artist.likedArtists = [];
+            // }
+            // const exists = state.artist.likedArtists.some((a) => a._id === action.payload._id);
+            // if (!exists) {
+            state.artist.likedArtists = [...state.artist.likedArtists, action.payload];
+            // }
+        },
+        unlikeArtist: (state, action) => {
+            state.artist.likedArtists = state.artist.likedArtists.filter((a) => a._id !== action.payload._id);
+        },
     },
 });
 
@@ -57,7 +50,10 @@ export const {
     getArtistSuccess,
     getArtistFailed,
     getArtistDetailSuccess,
-    getLikedArtistDetailSuccess,
-    getUnLikedArtistDetailSuccess,
+    resetLikedArtists,
+    likeArtist,
+    unlikeArtist,
+    setFollow,
+    // UnLikedArtistDetail,
 } = artistSlice.actions;
 export default artistSlice.reducer;

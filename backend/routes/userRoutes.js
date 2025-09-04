@@ -6,6 +6,7 @@ import {
   updateUserInfo,
   followArtist,
   getUserById,
+  unFollowArtist,
 } from "../controllers/userController.js";
 import { middlewareController } from "../middleware/authMiddleware.js";
 
@@ -20,11 +21,11 @@ router.post("/:id", middlewareController.verifyToken, updateUserInfo);
 router.delete("/:id", middlewareController.verifyAdminToken, deleteUser);
 
 // follow artist
-router.post(
-  "/:userId/follow/artist/:artistId",
-  middlewareController.verifyToken,
-  followArtist
-);
+router.post("/:userId/follow/artist/:artistId", followArtist);
+
+//unfollow artist
+router.post("/:userId/:artistId", unFollowArtist);
+
 // follow albums
 router.post(
   "/:userId/follow/artist/:albumId",

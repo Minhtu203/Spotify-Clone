@@ -97,11 +97,33 @@ export const followArtist = async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
     // Nếu chưa follow thì thêm vào
-    if (!user.liked.artists.includes(artistId)) {
-      user.liked.artists.push(artistId);
+    if (!user.liked?.artists.includes(artistId)) {
+      user.liked?.artists.push(artistId);
       await user.save();
     }
     res.status(200).json({ message: "Artist followed", liked: user.liked });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const unFollowArtist = async (req, res) => {
+  try {
+    const { userId, artistId } = req.params;
+    const user = await User.findById(userId);
+
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    // Nếu user đã follow thì xóa ra khỏi mảng
+    if (user.liked.artists.includes(artistId)) {
+      user.liked.artists = user.liked.artists.filter(
+        (id) => id.toString() !== artistId
+      );
+      await user.save();
+    }
+    res
+      .status(200)
+      .json({ message: "Artist unfollowed", liked: user.liked.artists });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

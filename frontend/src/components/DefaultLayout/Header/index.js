@@ -3,16 +3,17 @@ import styles from './Header.module.scss';
 import classNames from 'classnames/bind';
 import { BrowseIcon, HomeIcon, SearchIcon, SpotifyIcon } from '../../../assets/Icon';
 
-import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllSongs, LogOut } from '../../../redux/apiRequest';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { LogOut, searchApi } from '../../../redux/apiRequest';
 
 const cx = classNames.bind(styles);
 
 export default function Header() {
     const inputRef = useRef(null);
     const dispatch = useDispatch();
-    const [inputValue, setInputValue] = useState('');
+    const [inputValue, setInputValue] = useState(''); // input search
+    const [result, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
     const [searchIcon, setSearchIcon] = useState(false);
     const navigate = useNavigate();
@@ -20,14 +21,19 @@ export default function Header() {
     const handleFocus = () => {
         inputRef.current?.focus();
     };
-    const Songs = useSelector((state) => state.songs.songs?.allSongs);
-    // useEffect(() => {
-    //     getAllSongs(dispatch);
-    // }, [dispatch]);
 
     const handleLogOut = () => {
         LogOut(dispatch, navigate);
     };
+
+    //api search songs
+    useEffect(() => {
+        const handler = setTimeout(async () => {
+            searchApi(inputValue, setResults);
+        }, 300);
+        return () => clearTimeout(handler);
+    }, [inputValue]);
+
     return (
         <div className={cx('header-wrapper')}>
             <Link to="/" alt="spotify" className={cx('logo')}>
@@ -81,7 +87,7 @@ export default function Header() {
                             <span className={cx('recent-search')}>Recent searches</span>
 
                             <ul className={cx('song-list')}>
-                                {Songs?.map((song) => (
+                                {result?.map((song) => (
                                     <li key={song._id} className={cx('song-item')}>
                                         <img src={song.avatar} alt="song pic" />
                                         <div>

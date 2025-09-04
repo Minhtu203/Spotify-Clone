@@ -6,37 +6,44 @@ import { AddIcon, PauseIcon, PlayMusicIcon, VerifiedIcon } from '../../assets/Ic
 import { FollowButton, UnFollowBtn } from '../FollowButton';
 import 'primeicons/primeicons.css';
 import { Fragment, useEffect, useState } from 'react';
-import { getAllSongById, getLikedArtistDetail, getSongBySongId, getUnLikedArtistDetail } from '../../redux/apiRequest';
+import { AddLikedArtist, getAllSongById, getSongBySongId, unFollowArtist } from '../../redux/apiRequest';
 import { UseAudioPlayer } from '../../lib/useAudioPlayer';
-import { getUnLikedArtistDetailSuccess } from '../../redux/artistSlice';
 
 const cx = classNames.bind(style);
 
 function ArtistDetail() {
+    const dispatch = useDispatch();
+
+    //duration
+    const { duration, formatTime } = UseAudioPlayer();
+
     const { togglePlayPause, isPlaying } = UseAudioPlayer();
     const [playInSongItem, setPlayInSongItem] = useState(null);
-    const dispatch = useDispatch();
-    const songs = useSelector((state) => state.songs.songs?.allSongs); //all songs
     const currentSong = useSelector((state) => state.songs.songs?.currentSong); //current song
     const artist = useSelector((state) => state.artists.artist?.artistDetail); //get artist._id
-    const isFollowed = useSelector((state) => state.artists.artist?.isFollowed);
+    const user = useSelector((state) => state.auth.login?.currentUser); // get currentUser
+    const likedArtists = useSelector((state) => state.artists.artist?.likedArtists);
+    const isFollowed = likedArtists.some((a) => a._id === artist._id);
 
-    //call api get songs by artist id
+    //get song by artistId
     useEffect(() => {
         getAllSongById(dispatch, artist._id);
-        getLikedArtistDetail(dispatch, artist._id);
-    }, [dispatch, artist._id, isFollowed]);
+    }, [dispatch, artist._id]);
+    const songs = useSelector((state) => state.songs.songs?.allSongs); //all songs
 
     // dispatch songId
     const handlePlaySong = (id) => {
         getSongBySongId(dispatch, id);
     };
 
-    const user = useSelector((state) => state.auth.login?.currentUser);
-    // console.log(user);
-    // const handleTest = (artist) => {
-    //     console.log(artist.name, ' - ', artist._id);
-    // };
+    const handleFollowArtist = (userId, artistId) => {
+        AddLikedArtist(dispatch, userId, artistId);
+    };
+
+    //unfollow
+    const handleUnFollowArtist = (userId, artistId) => {
+        unFollowArtist(dispatch, userId, artistId);
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -78,12 +85,16 @@ function ArtistDetail() {
                         <div className={cx('album')}>
                             <img alt={artist.name} src={artist.imageUrl} />
                         </div>
-                        {isFollowed ? (
-                            <span onClick={() => getLikedArtistDetail(dispatch, artist._id)}>
+                        {!isFollowed ? (
+                            <span
+                                onClick={() => {
+                                    handleFollowArtist(user._id, artist._id);
+                                }}
+                            >
                                 <FollowButton height="3rem" />
                             </span>
                         ) : (
-                            <span onClick={() => console.log(1111)}>
+                            <span onClick={() => handleUnFollowArtist(user._id, artist._id)}>
                                 <UnFollowBtn height="3rem" />
                             </span>
                         )}
@@ -146,7 +157,7 @@ function ArtistDetail() {
                                             1 ? <AddIcon className={cx('add-icon-btn')} /> : <Fragment />
                                         }
                                     </button>
-                                    <span className={cx('duration')}>2:45</span>
+                                    <span className={cx('duration')}>{formatTime(duration)}</span>
                                     <button className={cx('list-icon-btn')}>
                                         <i className={cx('list-icon', 'pi pi-ellipsis-h')}></i>
                                     </button>

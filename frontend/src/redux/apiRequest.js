@@ -7,6 +7,8 @@ import {
     logOutStart,
     logOutSuccess,
     registerSuccess,
+    updateDeleteUserLikedArtists,
+    updateUserLikedArtists,
 } from './authSlice';
 import { registerStart } from '../redux/authSlice';
 import {
@@ -22,8 +24,13 @@ import {
     getArtistFailed,
     getArtistStart,
     getArtistSuccess,
-    getLikedArtistDetailSuccess,
-    getUnLikedArtistDetailSuccess,
+    // getLikedArtistDetailSuccess,
+    likeArtist,
+    resetLikedArtists,
+    setFollow,
+    setIsFollow,
+    unlikeArtist,
+    UnLikedArtistDetail,
 } from './artistSlice';
 import {
     deleteUserFailed,
@@ -139,25 +146,42 @@ export const getArtistDetail = async (dispatch, id) => {
     }
 };
 
-export const getLikedArtistDetail = async (dispatch, id) => {
+// export const resetLikedArtists = async (dispatch) => {
+//     dispatch(resetLikedArtists());
+// };
+
+export const getLikeArtists = async (dispatch, id) => {
     dispatch(getArtistStart());
     try {
         const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
-        dispatch(getLikedArtistDetailSuccess(res.data));
+        dispatch(likeArtist(res.data));
     } catch (error) {
         dispatch(getArtistFailed());
     }
 };
 
-// export const getUnLikedArtistDetail = async (dispatch, id) => {
-//     dispatch(getArtistStart());
-//     try {
-//         const res = await axios.get(`http://localhost:5000/api/artists/${id}`);
-//         dispatch(getUnLikedArtistDetailSuccess(res.data));
-//     } catch (error) {
-//         dispatch(getArtistFailed());
-//     }
-// };
+export const AddLikedArtist = async (dispatch, userId, artistId) => {
+    try {
+        await axios.post(`http://localhost:5000/api/user/${userId}/follow/artist/${artistId}`);
+        const resArtist = await axios.get(`http://localhost:5000/api/artists/${artistId}`);
+        dispatch(likeArtist(resArtist.data));
+        dispatch(updateUserLikedArtists(artistId));
+    } catch (error) {
+        console.log('Follow artist failed: ', error);
+    }
+};
+
+export const unFollowArtist = async (dispatch, userId, artistId) => {
+    try {
+        await axios.post(`http://localhost:5000/api/user/${userId}/${artistId}`);
+        const resArtist = await axios.get(`http://localhost:5000/api/artists/${artistId}`);
+        dispatch(unlikeArtist(resArtist.data));
+        dispatch(updateUserLikedArtists(artistId));
+        // dispatch(updateUserLikedArtists(resArtist.data.liked.artists));
+    } catch (error) {
+        console.log('Unfollow artist failed!', error);
+    }
+};
 
 export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
     dispatch(getUserStart());
@@ -182,5 +206,18 @@ export const deleteUser = async (userId, dispatch, accessToken, axiosJWT) => {
         dispatch(deleteUserSuccess(userId));
     } catch (err) {
         dispatch(deleteUserFailed());
+    }
+};
+
+export const searchApi = async (inputValue, setResults) => {
+    if (inputValue.trim() !== '') {
+        try {
+            const res = await axios.get(`http://localhost:5000/api/search?q=${inputValue}`);
+            setResults(res.data); // gán kết quả
+        } catch (err) {
+            console.error('Search failed:', err);
+        }
+    } else {
+        setResults([]); // clear khi input rỗng
     }
 };

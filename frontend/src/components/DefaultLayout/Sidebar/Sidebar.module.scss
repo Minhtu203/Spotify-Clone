@@ -1,14 +1,18 @@
 //sidebar.css
 .wrapper {
-    min-width: 30rem;
-    width: 40rem;
+    min-width: 8rem;
+    // width: 40rem;
     max-width: 50rem;
+    resize: horizontal;
+    overflow: auto;
     height: calc(100vh - var(--header-height) - var(--controlbar-height));
     background-color: var(--layout-dark);
     margin-left: 0.5rem;
     border-radius: 1rem;
     margin-top: var(--header-height);
     margin-bottom: var(--controlbar-height);
+    position: relative;
+    padding-left: 0.5rem;
 }
 
 .header {
@@ -89,27 +93,79 @@
 }
 
 .content {
-    margin-top: 1rem;
     border-radius: 1rem;
 }
 
 .search-recent-icon {
+    width: 100%;
     position: relative;
-    margin: 1rem 0;
+    display: flex;
+    flex-direction: row;
 
     .search-content-icon {
+        width: 3.5rem;
+        height: 3.5rem;
         background-color: var(--layout-dark);
         color: var(--gray);
         border: none;
         border-radius: 50%;
         cursor: pointer;
         margin-left: 1rem;
+
+        &:hover {
+            background-color: var(--hover);
+        }
+
+        .search-icon {
+            &:hover {
+                color: var(--white);
+            }
+        }
+    }
+
+    .input-search-content-icon {
+        width: 3.2rem;
+        height: 3.2rem;
+        color: var(--gray);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-left: 1rem;
+        position: absolute;
+    }
+
+    .search-input {
+        position: relative;
+        width: 40%;
+        height: 3.5rem;
+        margin-left: 1rem;
+        padding: 0 0.8rem 0 3.4rem;
+        outline: none;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: var(--hover);
+        font-size: 1.3rem;
+        color: var(--gray);
+        display: flex;
+        align-items: center;    
+    }
+
+    .search-input.open {
+        animation: slideIn 0.4s ease-out forwards;
+    }
+
+    .search-input.close {
+        animation: slideOut 0.4s ease-in forwards;
     }
 
     .recent-btn {
         position: absolute;
         right: 0;
-        display: inline-flex;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // justify-content: end;
         align-items: center;
         background-color: var(--layout-dark);
         color: var(--gray);
@@ -117,6 +173,11 @@
         font-weight: 600;
         margin-right: 2rem;
         cursor: pointer;
+
+        &:hover {
+            transform: scale(1.08);
+            color: var(--white);
+        }
     }
 }
 
@@ -124,9 +185,91 @@
     width: 100%;
     background-color: var(--layout-dark);
     overflow-y: hidden;
+    padding-right: 1rem;
+    padding-top: 1rem;
 
     &:hover {
         overflow-y: auto;
     }
 }
 
+@keyframes slideIn {
+    from {
+        width: 10%;
+        opacity: 0;
+    }
+    to {
+        width: 45%;
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        width: 45%;
+        opacity: 1;
+    }
+    to {
+        width: 10%;
+        opacity: 0;
+    }
+}
+
+
+.liked-songs {
+        display: flex;
+        height: 6.4rem;
+        width: 100%;
+        cursor: pointer;
+        gap: 1rem;
+        background-color: var(--layout-dark);
+        border: none;
+        color: var(--white);
+        font-weight: 500;
+        font-size: 1.6rem;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 1rem;
+        border-radius: 0.5rem;
+
+        &:hover {
+            background-color: var(--hover);
+        }
+
+            .heart-icon {
+                display: flex;
+                width: 4.8rem;
+                height: 4.8rem;
+                border-radius: 0.3rem;
+                background: linear-gradient(to bottom right,  var(--blue) 0%, var(--white) 100%);
+                justify-content: center;
+                align-items: center;
+            }
+    } 
+    
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    justify-content: center;
+    align-items: flex-start;
+    letter-spacing: 0.02rem;
+
+    .title {
+        font-size: 1.4rem;
+        color: var(--gray);
+        gap: 0.6rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.artist-avatar {
+    display: flex;
+    align-items: center;
+    object-fit: cover;
+    width: 4.8rem;
+    height: 4.8rem;
+    border-radius: 50%;
+}

@@ -34,7 +34,6 @@ function ControlBar() {
         isPlaying,
         currentTime,
         duration,
-        audioRef,
         togglePlayPause,
         handleSeek,
         formatTime,
@@ -46,7 +45,6 @@ function ControlBar() {
         handleVolumeChange,
         volume,
         handleMuteVolume,
-        lastVolume,
     } = UseAudioPlayer();
 
     const handleArtist = (artistid) => {

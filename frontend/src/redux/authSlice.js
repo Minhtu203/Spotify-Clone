@@ -17,6 +17,9 @@ const authSlice = createSlice({
             isFetching: false,
             err: false,
         },
+        follow: {
+            isFollowing: false,
+        },
     },
     reducers: {
         loginStart: (state) => {
@@ -56,6 +59,9 @@ const authSlice = createSlice({
             state.logout.isFetching = false;
             state.logout.err = true;
         },
+        updateUserLikedArtists: (state, action) => {
+            state.login.currentUser.liked.artists = action.payload;
+        },
     },
 });
 
@@ -69,5 +75,6 @@ export const {
     logOutStart,
     logOutSuccess,
     logOutFailed,
+    updateUserLikedArtists,
 } = authSlice.actions;
 export default authSlice.reducer;

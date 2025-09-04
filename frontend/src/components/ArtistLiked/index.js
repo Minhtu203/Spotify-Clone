@@ -4,26 +4,32 @@ import 'primeicons/primeicons.css';
 import { PinIcon } from '../../assets/Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { getArtistDetail, getLikedArtistDetail } from '../../redux/apiRequest';
+import { useEffect, useMemo } from 'react';
+import { AddLikedArtist, getArtistDetail } from '../../redux/apiRequest';
+import { resetLikedArtists } from '../../redux/artistSlice';
 
 const cx = classNames.bind(style);
 
 function ArtirstLiked() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.login?.currentUser); // currentUser
 
-    const user = useSelector((state) => state.auth.login?.currentUser);
+    //artistLiked =  user.liked.artists
+    const artistLiked = useMemo(() => {
+        return Array.isArray(user?.liked?.artists) ? user.liked.artists : [];
+    }, [user]);
 
     useEffect(() => {
-        if (user?.liked?.artists?.length > 0) {
-            user?.liked?.artists?.map((a, index) => {
-                getLikedArtistDetail(dispatch, a);
+        if (artistLiked.length > 0) {
+            dispatch(resetLikedArtists());
+            artistLiked.forEach((a) => {
+                AddLikedArtist(dispatch, user._id, a);
             });
         }
-    }, [dispatch, user?.liked?.artists]);
+    }, [dispatch, user, artistLiked]);
 
-    const followedArtist = useSelector((state) => state.artists.artist?.likedArtists);
+    let followedArtist = useSelector((state) => state.artists.artist?.likedArtists); // get array likeArtists from artistSlice
 
     const handleArtist = (artistId) => {
         getArtistDetail(dispatch, artistId);
@@ -47,7 +53,6 @@ function ArtirstLiked() {
                     </div>
                 </div>
             </button>
-            {/* map  */}
             {followedArtist?.map((a, index) => (
                 <button className={cx('liked-songs')} key={index} onClick={() => handleArtist(a._id)}>
                     <img className={cx('artist-avatar')} alt={a.name} src={a.imageUrl} />
