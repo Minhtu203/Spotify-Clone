@@ -42,6 +42,7 @@ import {
     getUserSuccess,
 } from './userSlice';
 import { useSelector } from 'react-redux';
+import { postData } from '../lib/axios';
 
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
@@ -219,5 +220,16 @@ export const searchApi = async (inputValue, setResults) => {
         }
     } else {
         setResults([]); // clear khi input rỗng
+    }
+};
+
+export const UploadSong = async (data) => {
+    try {
+        const res = await postData('/songs/', data);
+        console.log(data);
+
+        return res.data;
+    } catch (error) {
+        console.log('upload failed', error);
     }
 };

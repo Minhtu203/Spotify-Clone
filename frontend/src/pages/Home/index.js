@@ -33,22 +33,6 @@ export default function Home() {
         }
     }, [user, user?.accessToken, dispatch, navigate, axiosJWT]);
 
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            // ngăn chặn scroll khi nhấn space
-            if (e.code === 'Space') {
-                e.preventDefault();
-                togglePlayPause();
-            }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [isPlaying]);
-
     return (
         <div className={cx('wrapper')}>
             <Header />

@@ -4,19 +4,24 @@ import classNames from 'classnames/bind';
 import { BrowseIcon, HomeIcon, SearchIcon, SpotifyIcon } from '../../../assets/Icon';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LogOut, searchApi } from '../../../redux/apiRequest';
+import { useSongState } from '../../../store';
 
 const cx = classNames.bind(styles);
 
 export default function Header() {
     const inputRef = useRef(null);
     const dispatch = useDispatch();
-    const [inputValue, setInputValue] = useState(''); // input search
+    const navigate = useNavigate();
+
     const [result, setResults] = useState([]);
     const [isFocus, setIsFocus] = useState(false);
     const [searchIcon, setSearchIcon] = useState(false);
-    const navigate = useNavigate();
+    const [inputValue, setInputValue] = useState(''); // input search
+    const user = useSelector((state) => state.auth.login?.currentUser); // currentUser
+
+    const { setUpdate, toggleUpdate } = useSongState();
 
     const handleFocus = () => {
         inputRef.current?.focus();
@@ -103,6 +108,10 @@ export default function Header() {
             </div>
 
             {/* <button onClick={() => handleDeleteUser()}>asdfasdf</button> */}
+
+            <button className={cx('upload-btn')} onClick={() => setUpdate()}>
+                Upload
+            </button>
 
             <button className={cx('logout-btn')} onClick={() => handleLogOut()}>
                 Log out

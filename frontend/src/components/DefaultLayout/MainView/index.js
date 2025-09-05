@@ -8,6 +8,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { PlayMusicIcon } from '../../../assets/Icon';
 import { getSongSuccess } from '../../../redux/songSlice';
 import { getArtistDetailSuccess } from '../../../redux/artistSlice';
+import Upload from '../../Upload/upload';
+import { useSongState } from '../../../store/songStore';
 
 const cx = classNames.bind(style);
 
@@ -15,6 +17,8 @@ function MainView() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [playHover, setPlayHover] = useState(null);
+
+    const { toggleUpdate } = useSongState();
 
     const artists = useSelector((state) => state.artists.artist?.allArtist);
     useEffect(() => {
@@ -47,7 +51,7 @@ function MainView() {
                             onMouseLeave={() => setPlayHover(null)}
                         >
                             <img className={cx('song-avatar')} src={artist.imageUrl} alt={artist.name}></img>
-                            <span>{artist.name}</span>
+                            <span style={{ fontWeight: 700, fontSize: '1.4rem' }}>{artist.name}</span>
 
                             {playHover === artist?._id && (
                                 <button
@@ -65,6 +69,12 @@ function MainView() {
                         </div>
                     ))}
             </div>
+
+            {toggleUpdate && (
+                <div className={cx('upload')}>
+                    <Upload />
+                </div>
+            )}
         </div>
     );
 }

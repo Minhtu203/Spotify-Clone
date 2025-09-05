@@ -291,3 +291,15 @@ kbd {
         background-color: var(--hover);
     }
 }
+
+.upload-btn {
+    position: absolute;
+    color: white;
+    right: 15rem;
+    height: 3rem;
+    background-color: var(--hover);
+    border-radius: 2rem;
+    padding: 2rem;
+    font-weight: 700;
+    font-size: 3.2;
+}

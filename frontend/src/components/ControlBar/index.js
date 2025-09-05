@@ -22,6 +22,7 @@ import {
 import { Slider } from 'primereact/slider';
 import { UseAudioPlayer } from '../../lib/useAudioPlayer';
 import { setRandomBtn, setRepeatMode } from '../../redux/songSlice';
+import { useEffect } from 'react';
 
 const cx = classNames.bind(style);
 
@@ -50,6 +51,7 @@ function ControlBar() {
     const handleArtist = (artistid) => {
         getArtistDetail(dispatch, navigate, artistid);
     };
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('current-song')}>
