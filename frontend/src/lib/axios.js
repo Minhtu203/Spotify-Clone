@@ -5,4 +5,8 @@ const axiosInstance = axios.create({
     withCredentials: true,
 });
 
+export const getDaata = (url, params) => {
+    return axiosInstance.get(url, params);
+};
+
 export default axiosInstance;

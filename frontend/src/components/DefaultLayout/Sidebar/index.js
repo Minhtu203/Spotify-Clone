@@ -49,14 +49,14 @@ function Sidebar() {
     return (
         <div className={cx('wrapper', { shink: width < 150 })} style={{ width: `${width}px` }}>
             <div className={cx('header')}>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div className={cx('header-title')}>
                     <span className={cx('library')}>Your Library</span>
                     <div className={cx('create-container')}>
                         <div className={cx('create-btn')}>
                             <span>
                                 <PlusIcon />
                             </span>
-                            Create
+                            <span className={cx('create-title')}>Create</span>
                         </div>
 
                         <button className={cx('expand-btn')}>
@@ -66,9 +66,9 @@ function Sidebar() {
                 </div>
 
                 <div className={cx('header-btn')}>
-                    <button>Playlists</button>
-                    <button>Artists</button>
-                    <button>Albums</button>
+                    <button className={cx('res-hide')}>Playlists</button>
+                    <button className={cx('res-hide')}>Artists</button>
+                    <button className={cx('res-hide')}>Albums</button>
                 </div>
             </div>
             <div className={cx('content')}>
@@ -99,8 +99,8 @@ function Sidebar() {
                         </div>
                     )}
                     <button className={cx('recent-btn')}>
-                        <span>Recents</span>
-                        <span style={{ marginLeft: '0.8rem' }}>
+                        <span className={cx('recent-title')}>Recents</span>
+                        <span className={cx('list-icon')} style={{ marginLeft: '0.8rem' }}>
                             <ListIcon />
                         </span>
                     </button>

@@ -42,7 +42,7 @@ function ArtirstLiked() {
                 <span className={cx('heart-icon')}>
                     <i className="pi pi-heart-fill" style={{ fontSize: '1.6rem', color: 'var(--white)' }}></i>
                 </span>
-                <div className={cx('content')}>
+                <div className={cx('content', 'res-hide')}>
                     Liked Songs
                     <div className={cx('title')}>
                         <span style={{ display: 'flex', alignItems: 'center' }}>
@@ -56,9 +56,9 @@ function ArtirstLiked() {
             {followedArtist?.map((a, index) => (
                 <button className={cx('liked-songs')} key={index} onClick={() => handleArtist(a._id)}>
                     <img className={cx('artist-avatar')} alt={a.name} src={a.imageUrl} />
-                    <div className={cx('content')}>
+                    <div className={cx('content', 'res-hide')}>
                         {a.name}
-                        <div className={cx('title')}>Artist</div>
+                        <div className={cx('title', 'res-hide')}>Artist</div>
                     </div>
                 </button>
             ))}
