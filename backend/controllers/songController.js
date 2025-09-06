@@ -12,7 +12,18 @@ export const getAllSongs = async (req, res) => {
 
 export const createSong = async (req, res) => {
   try {
-    const song = await Song.create(req.body);
+    const { name, artist, plays } = req.body;
+    const baseUrl = `${req.protocol}://${req.get("host")}/uploads/`;
+
+    const audioUrl = req.files.audioUrl
+      ? baseUrl + req.files.audioUrl[0].filename
+      : null;
+    const avatar = req.files.avatar
+      ? baseUrl + req.files.avatar[0].filename
+      : null;
+
+    const song = await Song.create({ name, artist, plays, audioUrl, avatar });
+
     res.status(201).json(song);
   } catch (err) {
     res.status(400).json({ message: err.message });

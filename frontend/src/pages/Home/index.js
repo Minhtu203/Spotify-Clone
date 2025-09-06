@@ -11,12 +11,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess } from '../../redux/authSlice';
 import { CreateAxios } from '../../createAxios';
 import ControlBar from '../../components/ControlBar';
-import { UseAudioPlayer } from '../../lib/useAudioPlayer';
 
 const cx = classNames.bind(style);
 
 export default function Home() {
-    const { togglePlayPause, isPlaying } = UseAudioPlayer();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.login?.currentUser);

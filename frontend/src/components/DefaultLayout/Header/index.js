@@ -19,9 +19,8 @@ export default function Header() {
     const [isFocus, setIsFocus] = useState(false);
     const [searchIcon, setSearchIcon] = useState(false);
     const [inputValue, setInputValue] = useState(''); // input search
-    const user = useSelector((state) => state.auth.login?.currentUser); // currentUser
 
-    const { setUpdate, toggleUpdate } = useSongState();
+    const { setUpdate } = useSongState();
 
     const handleFocus = () => {
         inputRef.current?.focus();
@@ -106,13 +105,15 @@ export default function Header() {
                     )}
                 </div>
             </div>
-
-            {/* <button onClick={() => handleDeleteUser()}>asdfasdf</button> */}
-
-            <button className={cx('upload-btn')} onClick={() => setUpdate()}>
+            <button
+                className={cx('upload-btn')}
+                onClick={() => {
+                    navigate('/');
+                    setUpdate();
+                }}
+            >
                 Upload
             </button>
-
             <button className={cx('logout-btn')} onClick={() => handleLogOut()}>
                 Log out
             </button>

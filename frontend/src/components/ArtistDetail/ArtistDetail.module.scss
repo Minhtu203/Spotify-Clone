@@ -200,7 +200,6 @@
     display: flex;
     justify-content: end;
     padding-right: 1rem;
-    // padding-left: 2rem;
 }
 
 .list-icon-btn {
@@ -217,5 +216,27 @@
 
     .list-icon {
         color: var(--gray);
+    }
+}
+
+.list-item {
+    position: absolute;
+    bottom: 100%;
+    right: 3rem;
+    width: 10rem;
+    border-radius: 2rem;
+
+    .list-item-btn {
+        width: 100%;
+        height: 3rem;
+        background-color: var(--primary);
+        color: var(--white);
+        border-radius: 2rem;
+        font-weight: 700;
+        font-size: 1.4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
     }
 }

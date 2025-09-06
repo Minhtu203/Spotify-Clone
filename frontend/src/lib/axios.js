@@ -13,4 +13,8 @@ export const postData = (url, params) => {
     return axiosInstance.post(url, params);
 };
 
+export const deleteData = (url, params) => {
+    return axiosInstance.delete(url, params);
+};
+
 export default axiosInstance;

@@ -6,17 +6,15 @@ import { AddIcon, PauseIcon, PlayMusicIcon, VerifiedIcon } from '../../assets/Ic
 import { FollowButton, UnFollowBtn } from '../FollowButton';
 import 'primeicons/primeicons.css';
 import { Fragment, useEffect, useState } from 'react';
-import { AddLikedArtist, getAllSongById, getSongBySongId, unFollowArtist } from '../../redux/apiRequest';
+import { AddLikedArtist, deleteSong, getAllSongById, getSongBySongId, unFollowArtist } from '../../redux/apiRequest';
 import { UseAudioPlayer } from '../../lib/useAudioPlayer';
 
 const cx = classNames.bind(style);
 
 function ArtistDetail() {
     const dispatch = useDispatch();
-
     //duration
     const { duration, formatTime } = UseAudioPlayer();
-
     const { togglePlayPause, isPlaying } = UseAudioPlayer();
     const [playInSongItem, setPlayInSongItem] = useState(null);
     const currentSong = useSelector((state) => state.songs.songs?.currentSong); //current song
@@ -43,6 +41,15 @@ function ArtistDetail() {
     //unfollow
     const handleUnFollowArtist = (userId, artistId) => {
         unFollowArtist(dispatch, userId, artistId);
+    };
+
+    const [openList, setOpenList] = useState(null);
+    const toggleOpenList = (id) => {
+        setOpenList(openList === id ? null : id);
+    };
+    const handleDeleteSong = async (id) => {
+        await deleteSong(id);
+        getAllSongById(dispatch, artist._id);
     };
 
     return (
@@ -158,9 +165,28 @@ function ArtistDetail() {
                                         }
                                     </button>
                                     <span className={cx('duration')}>{formatTime(duration)}</span>
-                                    <button className={cx('list-icon-btn')}>
-                                        <i className={cx('list-icon', 'pi pi-ellipsis-h')}></i>
-                                    </button>
+
+                                    <div style={{ display: 'inline-block', position: 'relative' }}>
+                                        <button
+                                            className={cx('list-icon-btn')}
+                                            onClick={() => toggleOpenList(song._id)}
+                                        >
+                                            <i className={cx('list-icon', 'pi pi-ellipsis-h')}></i>
+                                        </button>
+
+                                        {openList === song._id && (
+                                            <div className={cx('list-item')}>
+                                                <button
+                                                    className={cx('list-item-btn')}
+                                                    onClick={() => {
+                                                        handleDeleteSong(song._id);
+                                                    }}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}

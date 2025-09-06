@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import cors from "cors";
+import path from "path";
 
 dotenv.config();
 connectDB();
@@ -36,6 +37,7 @@ app.use("/api/playlists", playlistRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/search", searchRoute);
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

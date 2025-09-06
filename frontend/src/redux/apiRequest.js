@@ -7,7 +7,6 @@ import {
     logOutStart,
     logOutSuccess,
     registerSuccess,
-    updateDeleteUserLikedArtists,
     updateUserLikedArtists,
 } from './authSlice';
 import { registerStart } from '../redux/authSlice';
@@ -26,23 +25,17 @@ import {
     getArtistSuccess,
     // getLikedArtistDetailSuccess,
     likeArtist,
-    resetLikedArtists,
-    setFollow,
-    setIsFollow,
     unlikeArtist,
-    UnLikedArtistDetail,
 } from './artistSlice';
 import {
     deleteUserFailed,
     deleteUserStart,
     deleteUserSuccess,
-    getCurrentUserSuccess,
     getUserFailed,
     getUserStart,
     getUserSuccess,
 } from './userSlice';
-import { useSelector } from 'react-redux';
-import { postData } from '../lib/axios';
+import { deleteData, postData } from '../lib/axios';
 
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
@@ -225,11 +218,20 @@ export const searchApi = async (inputValue, setResults) => {
 
 export const UploadSong = async (data) => {
     try {
-        const res = await postData('/songs/', data);
-        console.log(data);
-
+        const res = await postData('/songs/', data, {
+            header: { 'Content-Type': 'multipart/form-data' },
+        });
         return res.data;
     } catch (error) {
         console.log('upload failed', error);
+    }
+};
+
+export const deleteSong = async (songId) => {
+    try {
+        const res = await deleteData(`/songs/${songId}`);
+        console.log(res.data);
+    } catch (error) {
+        console.log('Delete failed!', error);
     }
 };
