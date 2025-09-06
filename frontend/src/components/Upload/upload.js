@@ -73,8 +73,15 @@ function Upload() {
                         <span>Avatar</span>
 
                         <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
-                            <input {...register('avatar', { required: true })} type="file" />
-                            {errors.avatar && <i>"Avatar" không được để trống</i>}
+                            <label className={cx('file-upload')}>
+                                <button>Choose file</button>
+                                <input
+                                    {...register('avatar', { required: true })}
+                                    type="file"
+                                    style={{ display: 'none' }}
+                                />
+                                {errors.avatar && <i>Avatar không được để trống</i>}
+                            </label>
                         </div>
                     </div>
 
